@@ -284,14 +284,11 @@ type AdapterConfig struct {
 // ProjFile is the path to the projection files. This is mandatory for media
 // based models like vision and audio.
 //
-// MTPDrafterFile is the path to a separate-file MTP "assistant" drafter GGUF
-// that ships alongside the main model (e.g. Gemma4's
-// "mtp-gemma-4-26B-A4B-it-*.gguf"). It is NOT the main model and NOT a
-// vocab-matched classic draft model: it is a per-model speculative head
-// loaded as its own llama_model whose context shares the target's KV
-// memory. Auto-wired from disk when the companion file is present; empty
-// otherwise. Distinct from the embedded MTP head carried inside some
-// target GGUFs (Qwen3.5/3.6), which has no separate file.
+// MTPDrafterFile is the path to a separate-file MTP drafter GGUF that ships
+// alongside the main model. Supported files are Gemma assistant heads that
+// share target KV and Qwen35 heads that own their draft KV. It is not the main
+// model or a vocab-matched classic draft model. The catalog wires this field
+// when it downloads a compatible companion from the model repository.
 //
 // ProjOnCPU forces the multimodal projector (mmproj) to run on the CPU. When
 // nil or false, the projector runs on whichever device llama.cpp picks by
@@ -339,11 +336,12 @@ type AdapterConfig struct {
 // SplitMode controls how the model is split across multiple GPUs:
 //   - SplitModeNone (0): single GPU
 //   - SplitModeLayer (1): split layers and KV across GPUs
-//   - SplitModeRow (2): deprecated row-split tensor parallelism
+//   - SplitModeRow (2): legacy row-split parallelism
+//   - SplitModeTensor (3): tensor parallelism
 //
 // When nil (not set), the default is SplitModeLayer, matching llama.cpp. Layer
 // mode distributes a single GGUF across multiple GPUs without requiring the
-// backend-specific split buffers used by row mode.
+// backend-specific support used by row and tensor modes.
 //
 // SWAFull controls whether models with sliding window attention (SWA) use a
 // full-size KV cache for SWA layers instead of the memory-efficient small
@@ -1500,8 +1498,11 @@ const (
 	// SplitModeLayer splits layers and KV cache across GPUs. This is the default.
 	SplitModeLayer SplitMode = 1
 
-	// SplitModeRow uses llama.cpp's deprecated row-split tensor parallelism.
+	// SplitModeRow uses llama.cpp's legacy row-split parallelism.
 	SplitModeRow SplitMode = 2
+
+	// SplitModeTensor uses llama.cpp's tensor parallel implementation.
+	SplitModeTensor SplitMode = 3
 )
 
 // String returns the string representation of a SplitMode.
@@ -1515,6 +1516,9 @@ func (s SplitMode) String() string {
 
 	case SplitModeRow:
 		return "row"
+
+	case SplitModeTensor:
+		return "tensor"
 
 	default:
 		return fmt.Sprintf("unknown(%d)", s)
@@ -1575,8 +1579,7 @@ func (s *SplitMode) UnmarshalYAML(unmarshal func(any) error) error {
 }
 
 // ParseSplitMode parses a string into a SplitMode.
-// Supported values are "none", "layer", and "row". The legacy aliases
-// "tensor", "tensor-parallel", and "expert-parallel" map to row mode.
+// Supported values are "none", "layer", "row", and "tensor".
 func ParseSplitMode(s string) (SplitMode, error) {
 	switch strings.ToLower(strings.TrimSpace(s)) {
 	case "none", "single", "0", "":
@@ -1585,11 +1588,14 @@ func ParseSplitMode(s string) (SplitMode, error) {
 	case "layer", "1":
 		return SplitModeLayer, nil
 
-	case "row", "tensor", "tensor-parallel", "expert-parallel", "2":
+	case "row", "2":
 		return SplitModeRow, nil
 
+	case "tensor", "tensor-parallel", "expert-parallel", "3":
+		return SplitModeTensor, nil
+
 	default:
-		return SplitModeNone, fmt.Errorf("parse-split-mode: unknown split mode: %s (valid: none, layer, row)", s)
+		return SplitModeNone, fmt.Errorf("parse-split-mode: unknown split mode: %s (valid: none, layer, row, tensor)", s)
 	}
 }
 
