@@ -248,6 +248,53 @@ value strictly; Kronk does not substitute another runtime. Use an explicit
 processor when automatic detection is not appropriate, such as deliberately
 running CPU inference on a GPU host.
 
+#### OpenVINO preview bundles
+
+Kronk can download llama.cpp OpenVINO bundles for Linux amd64 and Windows
+amd64. OpenVINO remains an explicit, preview backend: automatic detection does
+not select it, and CPU, GPU, and NPU execution must be validated on the target
+Intel system before production use.
+
+Two environment variables select the runtime:
+
+- `KRONK_PROCESSOR=openvino` selects the OpenVINO llama.cpp bundle.
+- `GGML_OPENVINO_DEVICE=CPU|GPU|GPU.<index>|NPU` selects the device used by
+  OpenVINO. OpenVINO defaults to `CPU` when this variable is unset, but setting
+  it explicitly makes the intended target clear.
+
+For example:
+
+```shell
+# Install the Linux amd64 bundle without making it the automatic default.
+kronk libs --local --install \
+  --arch=amd64 \
+  --os=linux \
+  --processor=openvino
+
+# Select the bundle and an Intel GPU for one server process.
+KRONK_PROCESSOR=openvino \
+GGML_OPENVINO_DEVICE=GPU \
+kronk server start
+```
+
+The OpenVINO runtime reads `GGML_OPENVINO_DEVICE` once during initialization;
+restart Kronk after changing it. GPU and NPU targets require the corresponding
+Intel host drivers and device permissions. If a requested device is not
+available, upstream OpenVINO can fall back to CPU, so validate the installation
+with the opt-in probe from a Kronk source checkout:
+
+```shell
+make test-openvino                         # CPU
+make test-openvino OPENVINO_DEVICE=GPU
+make test-openvino OPENVINO_DEVICE=GPU.0
+make test-openvino OPENVINO_DEVICE=NPU
+```
+
+The probe is supported on Linux/Windows amd64, downloads the pinned bundle and
+small diagnostic model, loads the library in-process, enumerates `OPENVINO0`,
+runs `llama-bench`, and fails if OpenVINO reports a fallback to CPU. It is not
+part of the normal test suite.
+
 Useful commands:
 
 ```shell
@@ -259,7 +306,7 @@ kronk libs --list-installs
 
 # Install the supported version using its exact release manifest pin.
 kronk libs --local \
-  --version=b11017@sha256:4a91c860517f9bd513031f6f1532ad85e2d5be0270445bc487a94f514a994b8e
+  --version=b11037@sha256:a6970a03e30d1070a69ca61986f7339beb18874d55b179e2f81ba38d73f116c5
 
 # Explicitly select CPU instead of an available GPU.
 KRONK_PROCESSOR=cpu kronk libs --local
