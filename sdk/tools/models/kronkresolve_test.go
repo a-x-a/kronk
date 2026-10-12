@@ -423,6 +423,8 @@ func TestModelConfigAdmissionAndQueue(t *testing.T) {
   admission-timeout: 3m
   imc-session-capacity: 8
   prefill-batch-size: 4096
+  image-batch-token-capacity: 1120
+  image-token-budget: 768
   queue-depth: 2
 `)
 
@@ -445,16 +447,24 @@ func TestModelConfigAdmissionAndQueue(t *testing.T) {
 	if got := kronkCfg.PrefillBatchSize(); got != 4096 {
 		t.Errorf("PrefillBatchSize() = %d, want 4096", got)
 	}
+	if got := kronkCfg.ImageBatchTokenCapacity(); got != 1120 {
+		t.Errorf("ImageBatchTokenCapacity() = %d, want 1120", got)
+	}
+	if got := kronkCfg.ImageTokenBudget(); got != 768 {
+		t.Errorf("ImageTokenBudget() = %d, want 768", got)
+	}
 
 	overrideTimeout := Duration(45 * time.Second)
 	overrideDepth := 4
 	overridePrefillBatchSize := 1024
 	overrideSessions := 10
 	MergeModelConfig(&cfg, ModelConfig{
-		PtrAdmissionTimeout:   &overrideTimeout,
-		PtrIMCSessionCapacity: &overrideSessions,
-		PtrPrefillBatchSize:   &overridePrefillBatchSize,
-		PtrQueueDepth:         &overrideDepth,
+		PtrAdmissionTimeout:        &overrideTimeout,
+		PtrIMCSessionCapacity:      &overrideSessions,
+		PtrPrefillBatchSize:        &overridePrefillBatchSize,
+		PtrImageBatchTokenCapacity: new(0),
+		PtrImageTokenBudget:        new(1536),
+		PtrQueueDepth:              &overrideDepth,
 	})
 	kronkCfg = cfg.ToKronkConfig()
 	if got := kronkCfg.AdmissionTimeout(); got != 45*time.Second {
@@ -468,6 +478,12 @@ func TestModelConfigAdmissionAndQueue(t *testing.T) {
 	}
 	if got := kronkCfg.PrefillBatchSize(); got != 1024 {
 		t.Errorf("merged PrefillBatchSize() = %d, want 1024", got)
+	}
+	if got := kronkCfg.ImageBatchTokenCapacity(); got != 0 || kronkCfg.PtrImageBatchTokenCapacity == nil {
+		t.Errorf("merged ImageBatchTokenCapacity() = %d, want explicit zero", got)
+	}
+	if got := kronkCfg.ImageTokenBudget(); got != 1536 {
+		t.Errorf("merged ImageTokenBudget() = %d, want 1536", got)
 	}
 }
 

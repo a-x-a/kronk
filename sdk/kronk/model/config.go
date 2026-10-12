@@ -23,12 +23,12 @@ import (
 Batch sizing defaults (applied in adjustConfig when left unset):
 
 	Prefill = 2048
-	NBatch  = Prefill + generation reserve
-	NUBatch = Prefill (non-MTP) or NBatch (MTP)
+	Base    = max(Prefill, ImageBatchTokenCapacity, ImageTokenBudget)
+	NBatch  = Base + generation reserve
+	NUBatch = Base (non-MTP) or NBatch (MTP)
 
-The 2048-token prefill capacity supports mtmd (vision) models whose image
-encoder uses non-causal attention and needs every patch token of an image
-chunk in one physical ubatch. Dropping below that can break image input.
+Non-causal image chunks need every row in one physical ubatch. Image capacity
+and preprocessing budgets are explicit opt-ins; projector defaults are unchanged.
 
 One slot owns ordinary prefill until it finishes. Generation rows from all
 ready slots are staged first. Non-MTP reserves one row; MTP reserves 1 + nDraft
@@ -257,8 +257,18 @@ type AdapterConfig struct {
 // takes longer before already-generating slots can run again and requires
 // larger compute buffers. Kronk derives llama.cpp's logical and physical batch
 // capacities from this value, the configured slot count, and the generation
-// mode. Multimodal models may require a complete media-token chunk to fit in
-// this capacity.
+// mode, with ImageBatchTokenCapacity providing an independent media floor.
+//
+// ImageBatchTokenCapacity provides an independent image-capacity floor for
+// native batches without increasing the text prefill contribution or changing
+// image preprocessing. The default is zero (no extra floor).
+// Oversized non-causal image chunks return an error instead of being split.
+//
+// ImageTokenBudget explicitly sets the preprocessing token budget for supported
+// projectors. Lower values can reduce image resolution and detail. When unset,
+// the projector's default is preserved. Explicit values must be positive and
+// also contribute to native batch capacity. Not all projectors honor the budget,
+// and final chunk sizes are still checked before decoding.
 //
 // NGpuLayers is the number of model layers to offload to the GPU. When set to 0,
 // all layers are offloaded (default). Set to -1 to keep all layers on CPU. Any
@@ -408,6 +418,8 @@ type Config struct {
 	Devices                    []string // Device names for model execution (e.g., ["CUDA0", "CUDA1"])
 	PtrFlashAttention          *FlashAttentionType
 	PtrIMCSessionCapacity      *int
+	PtrImageBatchTokenCapacity *int
+	PtrImageTokenBudget        *int
 	PtrIncrementalCache        *bool
 	PtrInsecureLogging         *bool
 	JinjaFile                  string
@@ -462,6 +474,22 @@ func (cfg Config) QueueDepth() int         { return intOr(cfg.PtrQueueDepth, 0) 
 func (cfg Config) IMCSessionCapacity() int { return intOr(cfg.PtrIMCSessionCapacity, 0) }
 func (cfg Config) ContextWindow() int      { return intOr(cfg.PtrContextWindow, 0) }
 func (cfg Config) PrefillBatchSize() int   { return intOr(cfg.PtrPrefillBatchSize, 0) }
+
+// ImageBatchTokenCapacity returns the explicit image-capacity floor, or zero.
+func (cfg Config) ImageBatchTokenCapacity() int { return intOr(cfg.PtrImageBatchTokenCapacity, 0) }
+
+// ImageTokenBudget returns the explicit preprocessing budget, or zero when unset.
+func (cfg Config) ImageTokenBudget() int { return intOr(cfg.PtrImageTokenBudget, 0) }
+
+// BatchBaseSize returns the native capacity base without the generation reserve.
+// The text scheduler continues to use PrefillBatchSize independently.
+func (cfg Config) BatchBaseSize() int {
+	prefill := cfg.PrefillBatchSize()
+	if prefill <= 0 {
+		prefill = DefaultPrefillBatchSize
+	}
+	return max(prefill, cfg.ImageBatchTokenCapacity(), cfg.ImageTokenBudget())
+}
 
 // EffectiveNBatch returns the derived llama.cpp logical batch capacity.
 func (cfg Config) EffectiveNBatch() int { return cfg.nBatch }
@@ -623,6 +651,14 @@ func validateConfig(ctx context.Context, cfg Config, log applog.Logger) error {
 
 	if cfg.PtrPrefillBatchSize != nil && cfg.PrefillBatchSize() <= 0 {
 		return fmt.Errorf("validate-config: prefill batch size must be > 0, got %d", cfg.PrefillBatchSize())
+	}
+
+	if cfg.ImageBatchTokenCapacity() < 0 {
+		return fmt.Errorf("validate-config: image batch token capacity must be >= 0, got %d", cfg.ImageBatchTokenCapacity())
+	}
+
+	if cfg.PtrImageTokenBudget != nil && (cfg.ImageTokenBudget() <= 0 || cfg.ImageTokenBudget() > math.MaxInt32) {
+		return fmt.Errorf("validate-config: image token budget must be between 1 and %d, got %d", math.MaxInt32, cfg.ImageTokenBudget())
 	}
 
 	if cfg.ProjDevice != "" && cfg.PtrProjOnCPU != nil && *cfg.PtrProjOnCPU {
@@ -828,11 +864,8 @@ func adjustConfig(cfg Config, model llama.Model) Config {
 	}
 	cfg = adjustIMCSessionCapacity(cfg)
 
-	// Start batch sizing from a 2048-token prefill capacity. Most models
-	// we serve are mtmd (vision) models whose image encoder uses non-causal
-	// attention and requires every patch token of an image chunk to land in one
-	// physical ubatch, so this base must not drop below the largest image chunk.
-	// Generation-reserve rows are added below for generation models.
+	// Default the scheduler's text contribution independently of native media
+	// capacity. Generation sizing adds the image floor and per-slot reserve.
 	if cfg.PrefillBatchSize() <= 0 {
 		cfg.PtrPrefillBatchSize = new(DefaultPrefillBatchSize)
 	}
@@ -896,7 +929,7 @@ func adjustConfig(cfg Config, model llama.Model) Config {
 // adjustGenerationBatch derives llama.cpp's logical and physical generation
 // batch capacities from the user-facing prefill size and generation reserve.
 func adjustGenerationBatch(cfg Config, generationRowsPerSlot int, singlePhysicalBatch bool) Config {
-	cfg.nBatch, cfg.nUBatch = GenerationBatchSizes(cfg.PrefillBatchSize(), cfg.NSeqMax(), generationRowsPerSlot, singlePhysicalBatch)
+	cfg.nBatch, cfg.nUBatch = GenerationBatchSizes(cfg.BatchBaseSize(), cfg.NSeqMax(), generationRowsPerSlot, singlePhysicalBatch)
 	return cfg
 }
 
@@ -2141,6 +2174,16 @@ func WithFlashAttention(v FlashAttentionType) Option {
 }
 func WithIMCSessionCapacity(v int) Option {
 	return func(c *Config) { c.PtrIMCSessionCapacity = new(v) }
+}
+
+// WithImageBatchTokenCapacity sets native image capacity without changing image detail.
+func WithImageBatchTokenCapacity(v int) Option {
+	return func(c *Config) { c.PtrImageBatchTokenCapacity = new(v) }
+}
+
+// WithImageTokenBudget explicitly sets the projector's image preprocessing budget.
+func WithImageTokenBudget(v int) Option {
+	return func(c *Config) { c.PtrImageTokenBudget = new(v) }
 }
 func WithIncrementalCache(v bool) Option       { return func(c *Config) { c.PtrIncrementalCache = new(v) } }
 func WithInsecureLogging(v bool) Option        { return func(c *Config) { c.PtrInsecureLogging = new(v) } }

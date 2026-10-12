@@ -500,6 +500,45 @@ func TestAdjustConfigUsesKronkThreadDefault(t *testing.T) {
 	}
 }
 
+func TestImageBatchTokenCapacity(t *testing.T) {
+	for _, tt := range []struct {
+		name       string
+		capacity   int
+		budget     int
+		prefill    int
+		mtp        bool
+		wantBatch  int
+		wantUBatch int
+	}{
+		{"no image defaults", 0, 0, 1024, false, 1026, 1024},
+		{"default text prefill", 0, 0, 0, false, 2050, 2048},
+		{"capacity only", 1120, 0, 512, false, 1122, 1120},
+		{"budget only", 0, 768, 512, false, 770, 768},
+		{"capacity exceeds budget", 1120, 768, 512, false, 1122, 1120},
+		{"budget exceeds capacity", 768, 1120, 512, false, 1122, 1120},
+		{"larger text prefill", 1120, 768, 4096, false, 4098, 4096},
+		{"MTP generation reserve", 0, 1120, 512, true, 1128, 1128},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			cfg := NewConfig(WithNSeqMax(2), WithPrefillBatchSize(tt.prefill), WithImageBatchTokenCapacity(tt.capacity))
+			if tt.budget > 0 {
+				WithImageTokenBudget(tt.budget)(&cfg)
+			}
+			rows := 1
+			if tt.mtp {
+				rows = 4
+			}
+			got := adjustGenerationBatch(cfg, rows, tt.mtp)
+			if got.PrefillBatchSize() != tt.prefill {
+				t.Errorf("text contribution: got %d, want %d", got.PrefillBatchSize(), tt.prefill)
+			}
+			if got.EffectiveNBatch() != tt.wantBatch || got.EffectiveNUBatch() != tt.wantUBatch {
+				t.Errorf("batch capacities: got %d/%d, want %d/%d", got.EffectiveNBatch(), got.EffectiveNUBatch(), tt.wantBatch, tt.wantUBatch)
+			}
+		})
+	}
+}
+
 func TestAdjustGenerationBatchUsesPrefillBatchSize(t *testing.T) {
 	tests := []struct {
 		name                string
@@ -996,6 +1035,18 @@ func TestValidateConfig(t *testing.T) {
 			WithModelFiles([]string{"dummy.gguf"}),
 			WithPrefillBatchSize(-1),
 		), true},
+		{"negative image batch token capacity is invalid", NewConfig(
+			WithModelFiles([]string{"dummy.gguf"}),
+			WithImageBatchTokenCapacity(-1),
+		), true},
+		{"zero image batch token capacity is valid", NewConfig(
+			WithModelFiles([]string{"dummy.gguf"}),
+			WithImageBatchTokenCapacity(0),
+		), false},
+		{"zero image token budget is invalid", NewConfig(WithModelFiles([]string{"dummy.gguf"}), WithImageTokenBudget(0)), true},
+		{"negative image token budget is invalid", NewConfig(WithModelFiles([]string{"dummy.gguf"}), WithImageTokenBudget(-1)), true},
+		{"oversized image token budget is invalid", NewConfig(WithModelFiles([]string{"dummy.gguf"}), WithImageTokenBudget(math.MaxInt32+1)), true},
+		{"positive image token budget is valid", NewConfig(WithModelFiles([]string{"dummy.gguf"}), WithImageTokenBudget(768)), false},
 		{"quantized V cache with Flash Attention disabled is invalid", NewConfig(
 			WithModelFiles([]string{"dummy.gguf"}),
 			WithCacheTypeV(GGMLTypeQ8_0),

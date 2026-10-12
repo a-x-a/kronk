@@ -401,6 +401,12 @@ func MergeModelConfig(dst *ModelConfig, src ModelConfig) {
 	if src.PtrPrefillBatchSize != nil {
 		dst.PtrPrefillBatchSize = src.PtrPrefillBatchSize
 	}
+	if src.PtrImageBatchTokenCapacity != nil {
+		dst.PtrImageBatchTokenCapacity = src.PtrImageBatchTokenCapacity
+	}
+	if src.PtrImageTokenBudget != nil {
+		dst.PtrImageTokenBudget = src.PtrImageTokenBudget
+	}
 	if src.PtrNThreads != nil {
 		dst.PtrNThreads = src.PtrNThreads
 	}

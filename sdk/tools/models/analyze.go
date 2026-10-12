@@ -263,7 +263,7 @@ func analyzeModelWithConfigAndBudget(info ModelInfo, devs devices.Devices, cfg M
 	modelSize := int64(info.Size)
 	computeBuf := vram.EstimateComputeBuffer(vram.Input{
 		ModelSizeBytes:  modelSize,
-		NUBatch:         effectivePrefillBatchSize(cfg.PtrPrefillBatchSize),
+		NUBatch:         effectivePrefillBatchSize(cfg),
 		EmbeddingLength: embeddingLength,
 	})
 
@@ -314,7 +314,7 @@ func analyzeModelWithConfigAndBudget(info ModelInfo, devs devices.Devices, cfg M
 		flashAttention: cfg.FlashAttention,
 		splitMode:      cfg.PtrSplitMode,
 		nGpuLayers:     cfg.PtrNGpuLayers,
-		nUBatch:        effectivePrefillBatchSize(cfg.PtrPrefillBatchSize),
+		nUBatch:        effectivePrefillBatchSize(cfg),
 		kvCacheOnCPU:   cfg.PtrOffloadKQV != nil && !*cfg.PtrOffloadKQV,
 		swaFull:        cfg.PtrSWAFull == nil || *cfg.PtrSWAFull,
 	}
@@ -714,11 +714,8 @@ func profileVTransposed(p profileInput) bool {
 	return !p.hasGPU
 }
 
-func effectivePrefillBatchSize(prefillBatchSize *int) int64 {
-	if prefillBatchSize != nil && *prefillBatchSize > 0 {
-		return int64(*prefillBatchSize)
-	}
-	return int64(model.DefaultPrefillBatchSize)
+func effectivePrefillBatchSize(cfg ModelConfig) int64 {
+	return int64(cfg.ToKronkConfig().BatchBaseSize())
 }
 
 // cacheRecommendations returns cache candidates in quality order while
