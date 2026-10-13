@@ -121,6 +121,14 @@ export default function DocsSDKModel() {
               <p className="doc-description">VerifyArtifact checks modelFile against parsed integrity values. It reads the artifact itself but performs no sidecar I/O. The returned bool reports whether a new verification was produced and should be persisted by the caller.</p>
             </div>
 
+            <div className="doc-section" id="func-parsechannel">
+              <h4>ParseChannel</h4>
+              <pre className="code-block">
+                <code>func ParseChannel(value string) (Channel, error)</code>
+              </pre>
+              <p className="doc-description">ParseChannel parses a registered channel name.</p>
+            </div>
+
             <div className="doc-section" id="func-parsedecisionprotocol">
               <h4>ParseDecisionProtocol</h4>
               <pre className="code-block">
@@ -129,28 +137,68 @@ export default function DocsSDKModel() {
               <p className="doc-description">ParseDecisionProtocol parses value and returns the corresponding DecisionProtocol when it exists.</p>
             </div>
 
+            <div className="doc-section" id="func-parsedecisionquestiontype">
+              <h4>ParseDecisionQuestionType</h4>
+              <pre className="code-block">
+                <code>func ParseDecisionQuestionType(value string) (DecisionQuestionType, error)</code>
+              </pre>
+              <p className="doc-description">ParseDecisionQuestionType parses a known answer shape or an unset value.</p>
+            </div>
+
+            <div className="doc-section" id="func-parseflashattentiontype">
+              <h4>ParseFlashAttentionType</h4>
+              <pre className="code-block">
+                <code>func ParseFlashAttentionType(value string) (FlashAttentionType, error)</code>
+              </pre>
+              <p className="doc-description">ParseFlashAttentionType parses a mode name or a supported boolean alias.</p>
+            </div>
+
             <div className="doc-section" id="func-parseggmltype">
               <h4>ParseGGMLType</h4>
               <pre className="code-block">
-                <code>func ParseGGMLType(s string) (GGMLType, error)</code>
+                <code>func ParseGGMLType(value string) (GGMLType, error)</code>
               </pre>
-              <p className="doc-description">ParseGGMLType parses a string into a GGMLType. Supported values: "f32", "f16", "q4_0", "q4_1", "q5_0", "q5_1", "q8_0", "bf16", "auto".</p>
+              <p className="doc-description">ParseGGMLType parses a cache type name or a supported alias.</p>
+            </div>
+
+            <div className="doc-section" id="func-parseimcsessionstate">
+              <h4>ParseIMCSessionState</h4>
+              <pre className="code-block">
+                <code>func ParseIMCSessionState(value string) (IMCSessionState, error)</code>
+              </pre>
+              <p className="doc-description">ParseIMCSessionState parses a known state or an unset value.</p>
+            </div>
+
+            <div className="doc-section" id="func-parsekvcachemode">
+              <h4>ParseKVCacheMode</h4>
+              <pre className="code-block">
+                <code>func ParseKVCacheMode(value string) (KVCacheMode, error)</code>
+              </pre>
+              <p className="doc-description">ParseKVCacheMode validates a cache layout name. Names are case sensitive.</p>
             </div>
 
             <div className="doc-section" id="func-parselazymode">
               <h4>ParseLazyMode</h4>
               <pre className="code-block">
-                <code>func ParseLazyMode(s string) (LazyMode, error)</code>
+                <code>func ParseLazyMode(value string) (LazyMode, error)</code>
               </pre>
-              <p className="doc-description">ParseLazyMode parses a string into a LazyMode.</p>
+              <p className="doc-description">ParseLazyMode parses a lazy mode name.</p>
             </div>
 
             <div className="doc-section" id="func-parseloadmode">
               <h4>ParseLoadMode</h4>
               <pre className="code-block">
-                <code>func ParseLoadMode(s string) (LoadMode, error)</code>
+                <code>func ParseLoadMode(value string) (LoadMode, error)</code>
               </pre>
-              <p className="doc-description">ParseLoadMode parses a string into a LoadMode.</p>
+              <p className="doc-description">ParseLoadMode parses a load mode name or direct-I/O alias.</p>
+            </div>
+
+            <div className="doc-section" id="func-parsemediatype">
+              <h4>ParseMediaType</h4>
+              <pre className="code-block">
+                <code>func ParseMediaType(value string) (MediaType, error)</code>
+              </pre>
+              <p className="doc-description">ParseMediaType parses a registered media name.</p>
             </div>
 
             <div className="doc-section" id="func-parsemoemode">
@@ -178,20 +226,44 @@ export default function DocsSDKModel() {
               <p className="doc-description">DetectModelTypeFromFiles loads a model from the given GGUF files, determines the architecture type, and immediately frees the model. It returns the ModelType, the raw general.architecture string from the GGUF metadata, and any error encountered during loading.</p>
             </div>
 
+            <div className="doc-section" id="func-parsemodeltype">
+              <h4>ParseModelType</h4>
+              <pre className="code-block">
+                <code>func ParseModelType(value string) (ModelType, error)</code>
+              </pre>
+              <p className="doc-description">ParseModelType parses a registered architecture name.</p>
+            </div>
+
+            <div className="doc-section" id="func-parsenumastrategy">
+              <h4>ParseNUMAStrategy</h4>
+              <pre className="code-block">
+                <code>func ParseNUMAStrategy(value string) (NUMAStrategy, error)</code>
+              </pre>
+              <p className="doc-description">ParseNUMAStrategy parses a registered strategy, including disabled empty.</p>
+            </div>
+
             <div className="doc-section" id="func-parseropescalingtype">
               <h4>ParseRopeScalingType</h4>
               <pre className="code-block">
-                <code>func ParseRopeScalingType(s string) (RopeScalingType, error)</code>
+                <code>func ParseRopeScalingType(value string) (RopeScalingType, error)</code>
               </pre>
-              <p className="doc-description">ParseRopeScalingType parses a string into a RopeScalingType. Supported values: "none", "linear", "yarn".</p>
+              <p className="doc-description">ParseRopeScalingType parses a scaling name or numeric alias.</p>
+            </div>
+
+            <div className="doc-section" id="func-parsespeculationmode">
+              <h4>ParseSpeculationMode</h4>
+              <pre className="code-block">
+                <code>func ParseSpeculationMode(value string) (SpeculationMode, error)</code>
+              </pre>
+              <p className="doc-description">ParseSpeculationMode parses a known speculation mode or an unset value.</p>
             </div>
 
             <div className="doc-section" id="func-parsesplitmode">
               <h4>ParseSplitMode</h4>
               <pre className="code-block">
-                <code>func ParseSplitMode(s string) (SplitMode, error)</code>
+                <code>func ParseSplitMode(value string) (SplitMode, error)</code>
               </pre>
-              <p className="doc-description">ParseSplitMode parses a string into a SplitMode. Supported values are "none", "layer", "row", and "tensor".</p>
+              <p className="doc-description">ParseSplitMode parses a split mode name or a supported alias.</p>
             </div>
           </div>
 
@@ -322,9 +394,11 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-channel">
               <h4>Channel</h4>
               <pre className="code-block">
-                <code>{`type Channel uint8`}</code>
+                <code>{`type Channel struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">Channel labels the semantic class of an emitted token, mapping 1:1 to the OpenAI chat/completions delta fields produced by the SSE writer.</p>
+              <p className="doc-description">Channel labels emitted tokens. Its zero value is none.</p>
             </div>
 
             <div className="doc-section" id="type-chatresponse">
@@ -394,6 +468,7 @@ export default function DocsSDKModel() {
 	PtrInsecureLogging         *bool
 	JinjaFile                  string
 	JinjaScript                string
+	PtrKVCacheMode             *KVCacheMode
 	LazyMode                   LazyMode
 	LoadMode                   LoadMode
 	Log                        applog.Logger
@@ -405,7 +480,7 @@ export default function DocsSDKModel() {
 	PtrNThreads                *int
 	PtrNThreadsBatch           *int
 	PtrPrefillBatchSize        *int
-	NUMA                       string
+	NUMA                       NUMAStrategy
 	PtrOffloadKQV              *bool
 	PtrOpOffload               *bool
 	ProjFile                   string
@@ -579,9 +654,11 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-decisionquestiontype">
               <h4>DecisionQuestionType</h4>
               <pre className="code-block">
-                <code>{`type DecisionQuestionType string`}</code>
+                <code>{`type DecisionQuestionType struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">DecisionQuestionType identifies the answer shape expected for a question.</p>
+              <p className="doc-description">DecisionQuestionType identifies the answer shape. Its zero value is unset.</p>
             </div>
 
             <div className="doc-section" id="type-decisionrequest">
@@ -707,17 +784,21 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-flashattentiontype">
               <h4>FlashAttentionType</h4>
               <pre className="code-block">
-                <code>{`type FlashAttentionType int32`}</code>
+                <code>{`type FlashAttentionType struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">FlashAttentionType controls when to enable Flash Attention. Flash Attention reduces memory usage and speeds up attention computation, especially beneficial for large context windows.</p>
+              <p className="doc-description">FlashAttentionType controls Flash Attention. Its zero value is enabled.</p>
             </div>
 
             <div className="doc-section" id="type-ggmltype">
               <h4>GGMLType</h4>
               <pre className="code-block">
-                <code>{`type GGMLType int32`}</code>
+                <code>{`type GGMLType struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">GGMLType represents a ggml data type for the KV cache. These values correspond to the ggml_type enum in llama.cpp.</p>
+              <p className="doc-description">GGMLType represents a ggml data type for the KV cache. Its zero value is auto.</p>
             </div>
 
             <div className="doc-section" id="type-imcsessiondetail">
@@ -746,9 +827,11 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-imcsessionstate">
               <h4>IMCSessionState</h4>
               <pre className="code-block">
-                <code>{`type IMCSessionState string`}</code>
+                <code>{`type IMCSessionState struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">IMCSessionState describes the current state of an allocated IMC cache entry.</p>
+              <p className="doc-description">IMCSessionState describes an allocated IMC entry. Its zero value is unset.</p>
             </div>
 
             <div className="doc-section" id="type-imcsystemcachedetail">
@@ -767,20 +850,34 @@ export default function DocsSDKModel() {
               <p className="doc-description">IMCSystemCacheDetail is a scalar snapshot of one System cache pool entry.</p>
             </div>
 
+            <div className="doc-section" id="type-kvcachemode">
+              <h4>KVCacheMode</h4>
+              <pre className="code-block">
+                <code>{`type KVCacheMode struct {
+	// Has unexported fields.
+}`}</code>
+              </pre>
+              <p className="doc-description">KVCacheMode controls whether slots use dedicated partitions or shared capacity. The zero value is unset; Config defaults a nil pointer to partitioned.</p>
+            </div>
+
             <div className="doc-section" id="type-lazymode">
               <h4>LazyMode</h4>
               <pre className="code-block">
-                <code>{`type LazyMode int32`}</code>
+                <code>{`type LazyMode struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">LazyMode controls on-demand reading of tensors marked eligible by llama.cpp.</p>
+              <p className="doc-description">LazyMode controls on-demand tensor reading. Its zero value is auto.</p>
             </div>
 
             <div className="doc-section" id="type-loadmode">
               <h4>LoadMode</h4>
               <pre className="code-block">
-                <code>{`type LoadMode int32`}</code>
+                <code>{`type LoadMode struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">LoadMode controls how model weights are loaded from storage.</p>
+              <p className="doc-description">LoadMode controls model weight loading. Its zero value is auto.</p>
             </div>
 
             <div className="doc-section" id="type-logger">
@@ -804,8 +901,11 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-mediatype">
               <h4>MediaType</h4>
               <pre className="code-block">
-                <code>{`type MediaType int`}</code>
+                <code>{`type MediaType struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
+              <p className="doc-description">MediaType identifies input media. Its zero value is none.</p>
             </div>
 
             <div className="doc-section" id="type-moeconfig">
@@ -879,9 +979,21 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-modeltype">
               <h4>ModelType</h4>
               <pre className="code-block">
-                <code>{`type ModelType uint8`}</code>
+                <code>{`type ModelType struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">ModelType represents the model architecture for batch engine state management.</p>
+              <p className="doc-description">ModelType represents the model architecture. Its zero value is dense.</p>
+            </div>
+
+            <div className="doc-section" id="type-numastrategy">
+              <h4>NUMAStrategy</h4>
+              <pre className="code-block">
+                <code>{`type NUMAStrategy struct {
+	// Has unexported fields.
+}`}</code>
+              </pre>
+              <p className="doc-description">NUMAStrategy controls NUMA placement. Its zero value disables NUMA.</p>
             </div>
 
             <div className="doc-section" id="type-option">
@@ -1186,9 +1298,11 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-ropescalingtype">
               <h4>RopeScalingType</h4>
               <pre className="code-block">
-                <code>{`type RopeScalingType int32`}</code>
+                <code>{`type RopeScalingType struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">RopeScalingType controls RoPE (Rotary Position Embedding) scaling method. This enables extended context windows beyond the model's native training length. For example, Qwen3 models trained on 32k can support 131k with YaRN scaling.</p>
+              <p className="doc-description">RopeScalingType controls RoPE scaling. Its zero value is none.</p>
             </div>
 
             <div className="doc-section" id="type-sessionstore">
@@ -1218,9 +1332,11 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="type-splitmode">
               <h4>SplitMode</h4>
               <pre className="code-block">
-                <code>{`type SplitMode int32`}</code>
+                <code>{`type SplitMode struct {
+	// Has unexported fields.
+}`}</code>
               </pre>
-              <p className="doc-description">SplitMode controls how the model is split across multiple GPUs.</p>
+              <p className="doc-description">SplitMode controls splitting across GPUs. Its zero value is none.</p>
             </div>
 
             <div className="doc-section" id="type-statemachine">
@@ -1378,6 +1494,78 @@ export default function DocsSDKModel() {
           <div className="card" id="methods">
             <h3>Methods</h3>
 
+            <div className="doc-section" id="method-channel-equal">
+              <h4>Channel.Equal</h4>
+              <pre className="code-block">
+                <code>func (t Channel) Equal(other Channel) bool</code>
+              </pre>
+              <p className="doc-description">Equal reports whether the values match.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-iszero">
+              <h4>Channel.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t Channel) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the channel is none.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-marshaljson">
+              <h4>Channel.MarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (t Channel) MarshalJSON() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalJSON preserves the numeric wire representation.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-marshaltext">
+              <h4>Channel.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t Channel) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText serializes the channel name.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-marshalyaml">
+              <h4>Channel.MarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (t Channel) MarshalYAML() (any, error)</code>
+              </pre>
+              <p className="doc-description">MarshalYAML preserves the numeric wire representation.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-string">
+              <h4>Channel.String</h4>
+              <pre className="code-block">
+                <code>func (t Channel) String() string</code>
+              </pre>
+              <p className="doc-description">String returns the channel name.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-unmarshaljson">
+              <h4>Channel.UnmarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (t *Channel) UnmarshalJSON(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalJSON validates a numeric wire value.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-unmarshaltext">
+              <h4>Channel.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *Channel) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a registered channel name.</p>
+            </div>
+
+            <div className="doc-section" id="method-channel-unmarshalyaml">
+              <h4>Channel.UnmarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (t *Channel) UnmarshalYAML(unmarshal func(any) error) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalYAML validates a numeric wire value.</p>
+            </div>
+
             <div className="doc-section" id="method-choice-finishreason">
               <h4>Choice.FinishReason</h4>
               <pre className="code-block">
@@ -1482,6 +1670,14 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (cfg Config) InsecureLogging() bool</code>
               </pre>
+            </div>
+
+            <div className="doc-section" id="method-config-kvcachemode">
+              <h4>Config.KVCacheMode</h4>
+              <pre className="code-block">
+                <code>func (cfg Config) KVCacheMode() KVCacheMode</code>
+              </pre>
+              <p className="doc-description">KVCacheMode returns the cache layout, defaulting to partitioned.</p>
             </div>
 
             <div className="doc-section" id="method-config-maingpu">
@@ -1700,6 +1896,46 @@ export default function DocsSDKModel() {
               <p className="doc-description">UnmarshalText parses serialized text into a known DecisionProtocol.</p>
             </div>
 
+            <div className="doc-section" id="method-decisionquestiontype-equal">
+              <h4>DecisionQuestionType.Equal</h4>
+              <pre className="code-block">
+                <code>func (t DecisionQuestionType) Equal(other DecisionQuestionType) bool</code>
+              </pre>
+              <p className="doc-description">Equal reports whether the values match.</p>
+            </div>
+
+            <div className="doc-section" id="method-decisionquestiontype-iszero">
+              <h4>DecisionQuestionType.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t DecisionQuestionType) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the answer shape is unset.</p>
+            </div>
+
+            <div className="doc-section" id="method-decisionquestiontype-marshaltext">
+              <h4>DecisionQuestionType.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t DecisionQuestionType) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText serializes the answer shape name.</p>
+            </div>
+
+            <div className="doc-section" id="method-decisionquestiontype-string">
+              <h4>DecisionQuestionType.String</h4>
+              <pre className="code-block">
+                <code>func (t DecisionQuestionType) String() string</code>
+              </pre>
+              <p className="doc-description">String returns the answer shape name.</p>
+            </div>
+
+            <div className="doc-section" id="method-decisionquestiontype-unmarshaltext">
+              <h4>DecisionQuestionType.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *DecisionQuestionType) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known answer shape or an unset value.</p>
+            </div>
+
             <div className="doc-section" id="method-decisionstatevalue-marshaljson">
               <h4>DecisionStateValue.MarshalJSON</h4>
               <pre className="code-block">
@@ -1730,11 +1966,36 @@ export default function DocsSDKModel() {
               </pre>
             </div>
 
+            <div className="doc-section" id="method-flashattentiontype-equal">
+              <h4>FlashAttentionType.Equal</h4>
+              <pre className="code-block">
+                <code>func (t FlashAttentionType) Equal(other FlashAttentionType) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-flashattentiontype-iszero">
+              <h4>FlashAttentionType.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t FlashAttentionType) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the mode is unset.</p>
+            </div>
+
             <div className="doc-section" id="method-flashattentiontype-marshaljson">
               <h4>FlashAttentionType.MarshalJSON</h4>
               <pre className="code-block">
                 <code>func (t FlashAttentionType) MarshalJSON() ([]byte, error)</code>
               </pre>
+              <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-flashattentiontype-marshaltext">
+              <h4>FlashAttentionType.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t FlashAttentionType) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
             </div>
 
             <div className="doc-section" id="method-flashattentiontype-marshalyaml">
@@ -1742,6 +2003,7 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t FlashAttentionType) MarshalYAML() (any, error)</code>
               </pre>
+              <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
             </div>
 
             <div className="doc-section" id="method-flashattentiontype-string">
@@ -1749,6 +2011,7 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t FlashAttentionType) String() string</code>
               </pre>
+              <p className="doc-description">String returns the canonical Flash Attention name.</p>
             </div>
 
             <div className="doc-section" id="method-flashattentiontype-unmarshaljson">
@@ -1756,6 +2019,15 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t *FlashAttentionType) UnmarshalJSON(data []byte) error</code>
               </pre>
+              <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-flashattentiontype-unmarshaltext">
+              <h4>FlashAttentionType.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *FlashAttentionType) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known Flash Attention mode.</p>
             </div>
 
             <div className="doc-section" id="method-flashattentiontype-unmarshalyaml">
@@ -1763,7 +2035,23 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t *FlashAttentionType) UnmarshalYAML(unmarshal func(any) error) error</code>
               </pre>
-              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler to parse string values.</p>
+              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-ggmltype-equal">
+              <h4>GGMLType.Equal</h4>
+              <pre className="code-block">
+                <code>func (t GGMLType) Equal(other GGMLType) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-ggmltype-iszero">
+              <h4>GGMLType.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t GGMLType) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the cache type is unset.</p>
             </div>
 
             <div className="doc-section" id="method-ggmltype-marshaljson">
@@ -1771,6 +2059,15 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t GGMLType) MarshalJSON() ([]byte, error)</code>
               </pre>
+              <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-ggmltype-marshaltext">
+              <h4>GGMLType.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t GGMLType) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
             </div>
 
             <div className="doc-section" id="method-ggmltype-marshalyaml">
@@ -1778,6 +2075,7 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t GGMLType) MarshalYAML() (any, error)</code>
               </pre>
+              <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
             </div>
 
             <div className="doc-section" id="method-ggmltype-string">
@@ -1785,7 +2083,15 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t GGMLType) String() string</code>
               </pre>
-              <p className="doc-description">String returns the string representation of a GGMLType.</p>
+              <p className="doc-description">String returns the canonical cache type name.</p>
+            </div>
+
+            <div className="doc-section" id="method-ggmltype-tovramtype">
+              <h4>GGMLType.ToVRAMType</h4>
+              <pre className="code-block">
+                <code>func (t GGMLType) ToVRAMType() int32</code>
+              </pre>
+              <p className="doc-description">ToVRAMType returns the cache type ID used by Kronk's memory estimators. Unlike native GGML IDs, 0 means auto and 50 means F32.</p>
             </div>
 
             <div className="doc-section" id="method-ggmltype-toyzmatype">
@@ -1793,6 +2099,7 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t GGMLType) ToYZMAType() llama.GGMLType</code>
               </pre>
+              <p className="doc-description">ToYZMAType converts to the native cache type; auto is the native -1 sentinel.</p>
             </div>
 
             <div className="doc-section" id="method-ggmltype-unmarshaljson">
@@ -1800,6 +2107,15 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t *GGMLType) UnmarshalJSON(data []byte) error</code>
               </pre>
+              <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-ggmltype-unmarshaltext">
+              <h4>GGMLType.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *GGMLType) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known cache type.</p>
             </div>
 
             <div className="doc-section" id="method-ggmltype-unmarshalyaml">
@@ -1807,21 +2123,157 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>func (t *GGMLType) UnmarshalYAML(unmarshal func(any) error) error</code>
               </pre>
-              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler to parse string values like "f16".</p>
+              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-imcsessionstate-equal">
+              <h4>IMCSessionState.Equal</h4>
+              <pre className="code-block">
+                <code>func (t IMCSessionState) Equal(other IMCSessionState) bool</code>
+              </pre>
+              <p className="doc-description">Equal reports whether the values match.</p>
+            </div>
+
+            <div className="doc-section" id="method-imcsessionstate-iszero">
+              <h4>IMCSessionState.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t IMCSessionState) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the state is unset.</p>
+            </div>
+
+            <div className="doc-section" id="method-imcsessionstate-marshaltext">
+              <h4>IMCSessionState.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t IMCSessionState) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText serializes the state name.</p>
+            </div>
+
+            <div className="doc-section" id="method-imcsessionstate-string">
+              <h4>IMCSessionState.String</h4>
+              <pre className="code-block">
+                <code>func (t IMCSessionState) String() string</code>
+              </pre>
+              <p className="doc-description">String returns the state name.</p>
+            </div>
+
+            <div className="doc-section" id="method-imcsessionstate-unmarshaltext">
+              <h4>IMCSessionState.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *IMCSessionState) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known state or an unset value.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-equal">
+              <h4>KVCacheMode.Equal</h4>
+              <pre className="code-block">
+                <code>func (m KVCacheMode) Equal(other KVCacheMode) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-iszero">
+              <h4>KVCacheMode.IsZero</h4>
+              <pre className="code-block">
+                <code>func (m KVCacheMode) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the layout is unset.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-marshaljson">
+              <h4>KVCacheMode.MarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (m KVCacheMode) MarshalJSON() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-marshaltext">
+              <h4>KVCacheMode.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (m KVCacheMode) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-marshalyaml">
+              <h4>KVCacheMode.MarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (m KVCacheMode) MarshalYAML() (any, error)</code>
+              </pre>
+              <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-string">
+              <h4>KVCacheMode.String</h4>
+              <pre className="code-block">
+                <code>func (m KVCacheMode) String() string</code>
+              </pre>
+              <p className="doc-description">String returns the cache layout name.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-unmarshaljson">
+              <h4>KVCacheMode.UnmarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (m *KVCacheMode) UnmarshalJSON(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-unmarshaltext">
+              <h4>KVCacheMode.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (m *KVCacheMode) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known cache layout.</p>
+            </div>
+
+            <div className="doc-section" id="method-kvcachemode-unmarshalyaml">
+              <h4>KVCacheMode.UnmarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (m *KVCacheMode) UnmarshalYAML(unmarshal func(any) error) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-lazymode-equal">
+              <h4>LazyMode.Equal</h4>
+              <pre className="code-block">
+                <code>func (m LazyMode) Equal(other LazyMode) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-lazymode-iszero">
+              <h4>LazyMode.IsZero</h4>
+              <pre className="code-block">
+                <code>func (m LazyMode) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the mode is unset.</p>
             </div>
 
             <div className="doc-section" id="method-lazymode-marshaljson">
               <h4>LazyMode.MarshalJSON</h4>
               <pre className="code-block">
-                <code>func (lm LazyMode) MarshalJSON() ([]byte, error)</code>
+                <code>func (m LazyMode) MarshalJSON() ([]byte, error)</code>
               </pre>
               <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-lazymode-marshaltext">
+              <h4>LazyMode.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (m LazyMode) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
             </div>
 
             <div className="doc-section" id="method-lazymode-marshalyaml">
               <h4>LazyMode.MarshalYAML</h4>
               <pre className="code-block">
-                <code>func (lm LazyMode) MarshalYAML() (any, error)</code>
+                <code>func (m LazyMode) MarshalYAML() (any, error)</code>
               </pre>
               <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
             </div>
@@ -1829,47 +2281,79 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="method-lazymode-string">
               <h4>LazyMode.String</h4>
               <pre className="code-block">
-                <code>func (lm LazyMode) String() string</code>
+                <code>func (m LazyMode) String() string</code>
               </pre>
-              <p className="doc-description">String returns the string representation of a LazyMode.</p>
+              <p className="doc-description">String returns the canonical lazy mode name.</p>
             </div>
 
             <div className="doc-section" id="method-lazymode-toyzmatype">
               <h4>LazyMode.ToYZMAType</h4>
               <pre className="code-block">
-                <code>func (lm LazyMode) ToYZMAType() llama.LazyMode</code>
+                <code>func (m LazyMode) ToYZMAType() llama.LazyMode</code>
               </pre>
-              <p className="doc-description">ToYZMAType converts to the yzma/llama.cpp LazyMode type.</p>
+              <p className="doc-description">ToYZMAType converts to the native lazy mode.</p>
             </div>
 
             <div className="doc-section" id="method-lazymode-unmarshaljson">
               <h4>LazyMode.UnmarshalJSON</h4>
               <pre className="code-block">
-                <code>func (lm *LazyMode) UnmarshalJSON(data []byte) error</code>
+                <code>func (m *LazyMode) UnmarshalJSON(data []byte) error</code>
               </pre>
               <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-lazymode-unmarshaltext">
+              <h4>LazyMode.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (m *LazyMode) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known lazy mode.</p>
             </div>
 
             <div className="doc-section" id="method-lazymode-unmarshalyaml">
               <h4>LazyMode.UnmarshalYAML</h4>
               <pre className="code-block">
-                <code>func (lm *LazyMode) UnmarshalYAML(unmarshal func(any) error) error</code>
+                <code>func (m *LazyMode) UnmarshalYAML(unmarshal func(any) error) error</code>
               </pre>
               <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-loadmode-equal">
+              <h4>LoadMode.Equal</h4>
+              <pre className="code-block">
+                <code>func (m LoadMode) Equal(other LoadMode) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-loadmode-iszero">
+              <h4>LoadMode.IsZero</h4>
+              <pre className="code-block">
+                <code>func (m LoadMode) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the mode is unset.</p>
             </div>
 
             <div className="doc-section" id="method-loadmode-marshaljson">
               <h4>LoadMode.MarshalJSON</h4>
               <pre className="code-block">
-                <code>func (lm LoadMode) MarshalJSON() ([]byte, error)</code>
+                <code>func (m LoadMode) MarshalJSON() ([]byte, error)</code>
               </pre>
               <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-loadmode-marshaltext">
+              <h4>LoadMode.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (m LoadMode) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
             </div>
 
             <div className="doc-section" id="method-loadmode-marshalyaml">
               <h4>LoadMode.MarshalYAML</h4>
               <pre className="code-block">
-                <code>func (lm LoadMode) MarshalYAML() (any, error)</code>
+                <code>func (m LoadMode) MarshalYAML() (any, error)</code>
               </pre>
               <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
             </div>
@@ -1877,33 +2361,113 @@ export default function DocsSDKModel() {
             <div className="doc-section" id="method-loadmode-string">
               <h4>LoadMode.String</h4>
               <pre className="code-block">
-                <code>func (lm LoadMode) String() string</code>
+                <code>func (m LoadMode) String() string</code>
               </pre>
-              <p className="doc-description">String returns the string representation of a LoadMode.</p>
+              <p className="doc-description">String returns the canonical load mode name.</p>
             </div>
 
             <div className="doc-section" id="method-loadmode-toyzmatype">
               <h4>LoadMode.ToYZMAType</h4>
               <pre className="code-block">
-                <code>func (lm LoadMode) ToYZMAType() llama.LoadMode</code>
+                <code>func (m LoadMode) ToYZMAType() llama.LoadMode</code>
               </pre>
-              <p className="doc-description">ToYZMAType converts to the yzma/llama.cpp LoadMode type.</p>
+              <p className="doc-description">ToYZMAType converts to the native load mode.</p>
             </div>
 
             <div className="doc-section" id="method-loadmode-unmarshaljson">
               <h4>LoadMode.UnmarshalJSON</h4>
               <pre className="code-block">
-                <code>func (lm *LoadMode) UnmarshalJSON(data []byte) error</code>
+                <code>func (m *LoadMode) UnmarshalJSON(data []byte) error</code>
               </pre>
               <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-loadmode-unmarshaltext">
+              <h4>LoadMode.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (m *LoadMode) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known load mode.</p>
             </div>
 
             <div className="doc-section" id="method-loadmode-unmarshalyaml">
               <h4>LoadMode.UnmarshalYAML</h4>
               <pre className="code-block">
-                <code>func (lm *LoadMode) UnmarshalYAML(unmarshal func(any) error) error</code>
+                <code>func (m *LoadMode) UnmarshalYAML(unmarshal func(any) error) error</code>
               </pre>
               <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-equal">
+              <h4>MediaType.Equal</h4>
+              <pre className="code-block">
+                <code>func (t MediaType) Equal(other MediaType) bool</code>
+              </pre>
+              <p className="doc-description">Equal reports whether the values match.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-iszero">
+              <h4>MediaType.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t MediaType) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether there is no media.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-marshaljson">
+              <h4>MediaType.MarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (t MediaType) MarshalJSON() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalJSON preserves the numeric wire representation.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-marshaltext">
+              <h4>MediaType.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t MediaType) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText serializes the media name.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-marshalyaml">
+              <h4>MediaType.MarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (t MediaType) MarshalYAML() (any, error)</code>
+              </pre>
+              <p className="doc-description">MarshalYAML preserves the numeric wire representation.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-string">
+              <h4>MediaType.String</h4>
+              <pre className="code-block">
+                <code>func (t MediaType) String() string</code>
+              </pre>
+              <p className="doc-description">String returns the media name.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-unmarshaljson">
+              <h4>MediaType.UnmarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (t *MediaType) UnmarshalJSON(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalJSON validates a numeric wire value.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-unmarshaltext">
+              <h4>MediaType.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *MediaType) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a registered media name.</p>
+            </div>
+
+            <div className="doc-section" id="method-mediatype-unmarshalyaml">
+              <h4>MediaType.UnmarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (t *MediaType) UnmarshalYAML(unmarshal func(any) error) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalYAML validates a numeric wire value.</p>
             </div>
 
             <div className="doc-section" id="method-moeconfig-keepexpertsongpufortopnlayers">
@@ -2059,12 +2623,116 @@ export default function DocsSDKModel() {
               </pre>
             </div>
 
+            <div className="doc-section" id="method-modeltype-equal">
+              <h4>ModelType.Equal</h4>
+              <pre className="code-block">
+                <code>func (t ModelType) Equal(other ModelType) bool</code>
+              </pre>
+              <p className="doc-description">Equal reports whether the values match.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-iszero">
+              <h4>ModelType.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t ModelType) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the architecture is dense.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-marshaljson">
+              <h4>ModelType.MarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (t ModelType) MarshalJSON() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalJSON preserves the numeric wire representation.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-marshaltext">
+              <h4>ModelType.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t ModelType) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText serializes the architecture name.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-marshalyaml">
+              <h4>ModelType.MarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (t ModelType) MarshalYAML() (any, error)</code>
+              </pre>
+              <p className="doc-description">MarshalYAML preserves the numeric wire representation.</p>
+            </div>
+
             <div className="doc-section" id="method-modeltype-string">
               <h4>ModelType.String</h4>
               <pre className="code-block">
-                <code>func (mt ModelType) String() string</code>
+                <code>func (t ModelType) String() string</code>
               </pre>
-              <p className="doc-description">String returns a human-readable name for the model type.</p>
+              <p className="doc-description">String returns the model architecture name.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-unmarshaljson">
+              <h4>ModelType.UnmarshalJSON</h4>
+              <pre className="code-block">
+                <code>func (t *ModelType) UnmarshalJSON(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalJSON validates a numeric wire value.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-unmarshaltext">
+              <h4>ModelType.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *ModelType) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a registered architecture name.</p>
+            </div>
+
+            <div className="doc-section" id="method-modeltype-unmarshalyaml">
+              <h4>ModelType.UnmarshalYAML</h4>
+              <pre className="code-block">
+                <code>func (t *ModelType) UnmarshalYAML(unmarshal func(any) error) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalYAML validates a numeric wire value.</p>
+            </div>
+
+            <div className="doc-section" id="method-numastrategy-equal">
+              <h4>NUMAStrategy.Equal</h4>
+              <pre className="code-block">
+                <code>func (t NUMAStrategy) Equal(other NUMAStrategy) bool</code>
+              </pre>
+              <p className="doc-description">Equal reports whether the values match.</p>
+            </div>
+
+            <div className="doc-section" id="method-numastrategy-iszero">
+              <h4>NUMAStrategy.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t NUMAStrategy) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether NUMA is disabled.</p>
+            </div>
+
+            <div className="doc-section" id="method-numastrategy-marshaltext">
+              <h4>NUMAStrategy.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t NUMAStrategy) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText serializes the strategy name.</p>
+            </div>
+
+            <div className="doc-section" id="method-numastrategy-string">
+              <h4>NUMAStrategy.String</h4>
+              <pre className="code-block">
+                <code>func (t NUMAStrategy) String() string</code>
+              </pre>
+              <p className="doc-description">String returns the strategy name, empty when disabled.</p>
+            </div>
+
+            <div className="doc-section" id="method-numastrategy-unmarshaltext">
+              <h4>NUMAStrategy.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *NUMAStrategy) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a registered strategy.</p>
             </div>
 
             <div className="doc-section" id="method-params-string">
@@ -2083,94 +2751,164 @@ export default function DocsSDKModel() {
               <p className="doc-description">MarshalJSON emits incremental and completed tool calls through the same OpenAI-compatible tool_calls wire field.</p>
             </div>
 
+            <div className="doc-section" id="method-ropescalingtype-equal">
+              <h4>RopeScalingType.Equal</h4>
+              <pre className="code-block">
+                <code>func (t RopeScalingType) Equal(other RopeScalingType) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-ropescalingtype-iszero">
+              <h4>RopeScalingType.IsZero</h4>
+              <pre className="code-block">
+                <code>func (t RopeScalingType) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the scaling mode is unset.</p>
+            </div>
+
             <div className="doc-section" id="method-ropescalingtype-marshaljson">
               <h4>RopeScalingType.MarshalJSON</h4>
               <pre className="code-block">
-                <code>func (r RopeScalingType) MarshalJSON() ([]byte, error)</code>
+                <code>func (t RopeScalingType) MarshalJSON() ([]byte, error)</code>
               </pre>
+              <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-ropescalingtype-marshaltext">
+              <h4>RopeScalingType.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (t RopeScalingType) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
             </div>
 
             <div className="doc-section" id="method-ropescalingtype-marshalyaml">
               <h4>RopeScalingType.MarshalYAML</h4>
               <pre className="code-block">
-                <code>func (r RopeScalingType) MarshalYAML() (any, error)</code>
+                <code>func (t RopeScalingType) MarshalYAML() (any, error)</code>
               </pre>
+              <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
             </div>
 
             <div className="doc-section" id="method-ropescalingtype-string">
               <h4>RopeScalingType.String</h4>
               <pre className="code-block">
-                <code>func (r RopeScalingType) String() string</code>
+                <code>func (t RopeScalingType) String() string</code>
               </pre>
-              <p className="doc-description">String returns the string representation of a RopeScalingType.</p>
+              <p className="doc-description">String returns the canonical scaling name.</p>
             </div>
 
             <div className="doc-section" id="method-ropescalingtype-toyzmatype">
               <h4>RopeScalingType.ToYZMAType</h4>
               <pre className="code-block">
-                <code>func (r RopeScalingType) ToYZMAType() llama.RopeScalingType</code>
+                <code>func (t RopeScalingType) ToYZMAType() llama.RopeScalingType</code>
               </pre>
-              <p className="doc-description">ToYZMAType converts to the yzma/llama.cpp RopeScalingType.</p>
+              <p className="doc-description">ToYZMAType converts to the native scaling mode.</p>
             </div>
 
             <div className="doc-section" id="method-ropescalingtype-unmarshaljson">
               <h4>RopeScalingType.UnmarshalJSON</h4>
               <pre className="code-block">
-                <code>func (r *RopeScalingType) UnmarshalJSON(data []byte) error</code>
+                <code>func (t *RopeScalingType) UnmarshalJSON(data []byte) error</code>
               </pre>
+              <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-ropescalingtype-unmarshaltext">
+              <h4>RopeScalingType.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (t *RopeScalingType) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known scaling mode.</p>
             </div>
 
             <div className="doc-section" id="method-ropescalingtype-unmarshalyaml">
               <h4>RopeScalingType.UnmarshalYAML</h4>
               <pre className="code-block">
-                <code>func (r *RopeScalingType) UnmarshalYAML(unmarshal func(any) error) error</code>
+                <code>func (t *RopeScalingType) UnmarshalYAML(unmarshal func(any) error) error</code>
               </pre>
-              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler to parse string values.</p>
+              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-splitmode-equal">
+              <h4>SplitMode.Equal</h4>
+              <pre className="code-block">
+                <code>func (m SplitMode) Equal(other SplitMode) bool</code>
+              </pre>
+              <p className="doc-description">Equal provides support for comparison and testing.</p>
+            </div>
+
+            <div className="doc-section" id="method-splitmode-iszero">
+              <h4>SplitMode.IsZero</h4>
+              <pre className="code-block">
+                <code>func (m SplitMode) IsZero() bool</code>
+              </pre>
+              <p className="doc-description">IsZero reports whether the mode is unset.</p>
             </div>
 
             <div className="doc-section" id="method-splitmode-marshaljson">
               <h4>SplitMode.MarshalJSON</h4>
               <pre className="code-block">
-                <code>func (s SplitMode) MarshalJSON() ([]byte, error)</code>
+                <code>func (m SplitMode) MarshalJSON() ([]byte, error)</code>
               </pre>
+              <p className="doc-description">MarshalJSON implements json.Marshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-splitmode-marshaltext">
+              <h4>SplitMode.MarshalText</h4>
+              <pre className="code-block">
+                <code>func (m SplitMode) MarshalText() ([]byte, error)</code>
+              </pre>
+              <p className="doc-description">MarshalText provides support for logging and serialization.</p>
             </div>
 
             <div className="doc-section" id="method-splitmode-marshalyaml">
               <h4>SplitMode.MarshalYAML</h4>
               <pre className="code-block">
-                <code>func (s SplitMode) MarshalYAML() (any, error)</code>
+                <code>func (m SplitMode) MarshalYAML() (any, error)</code>
               </pre>
+              <p className="doc-description">MarshalYAML implements yaml.Marshaler.</p>
             </div>
 
             <div className="doc-section" id="method-splitmode-string">
               <h4>SplitMode.String</h4>
               <pre className="code-block">
-                <code>func (s SplitMode) String() string</code>
+                <code>func (m SplitMode) String() string</code>
               </pre>
-              <p className="doc-description">String returns the string representation of a SplitMode.</p>
+              <p className="doc-description">String returns the canonical split mode name.</p>
             </div>
 
             <div className="doc-section" id="method-splitmode-toyzmatype">
               <h4>SplitMode.ToYZMAType</h4>
               <pre className="code-block">
-                <code>func (s SplitMode) ToYZMAType() llama.SplitMode</code>
+                <code>func (m SplitMode) ToYZMAType() llama.SplitMode</code>
               </pre>
-              <p className="doc-description">ToYZMAType converts to the yzma/llama.cpp SplitMode type.</p>
+              <p className="doc-description">ToYZMAType converts to the native split mode.</p>
             </div>
 
             <div className="doc-section" id="method-splitmode-unmarshaljson">
               <h4>SplitMode.UnmarshalJSON</h4>
               <pre className="code-block">
-                <code>func (s *SplitMode) UnmarshalJSON(data []byte) error</code>
+                <code>func (m *SplitMode) UnmarshalJSON(data []byte) error</code>
               </pre>
+              <p className="doc-description">UnmarshalJSON implements json.Unmarshaler.</p>
+            </div>
+
+            <div className="doc-section" id="method-splitmode-unmarshaltext">
+              <h4>SplitMode.UnmarshalText</h4>
+              <pre className="code-block">
+                <code>func (m *SplitMode) UnmarshalText(data []byte) error</code>
+              </pre>
+              <p className="doc-description">UnmarshalText parses a known split mode.</p>
             </div>
 
             <div className="doc-section" id="method-splitmode-unmarshalyaml">
               <h4>SplitMode.UnmarshalYAML</h4>
               <pre className="code-block">
-                <code>func (s *SplitMode) UnmarshalYAML(unmarshal func(any) error) error</code>
+                <code>func (m *SplitMode) UnmarshalYAML(unmarshal func(any) error) error</code>
               </pre>
-              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler to parse string values.</p>
+              <p className="doc-description">UnmarshalYAML implements yaml.Unmarshaler.</p>
             </div>
 
             <div className="doc-section" id="method-streamingresponselogger-capture">
@@ -2206,19 +2944,6 @@ export default function DocsSDKModel() {
 
           <div className="card" id="constants">
             <h3>Constants</h3>
-
-            <div className="doc-section" id="const-numadisabled">
-              <h4>NUMADisabled</h4>
-              <pre className="code-block">
-                <code>{`const (
-	NUMADisabled   = ""
-	NUMADistribute = "distribute"
-	NUMAIsolate    = "isolate"
-	NUMANumactl    = "numactl"
-	NUMAMirror     = "mirror"
-)`}</code>
-              </pre>
-            </div>
 
             <div className="doc-section" id="const-objectchatunknown">
               <h4>ObjectChatUnknown</h4>
@@ -2409,18 +3134,6 @@ export default function DocsSDKModel() {
               </pre>
             </div>
 
-            <div className="doc-section" id="const-speculationauto">
-              <h4>SpeculationAuto</h4>
-              <pre className="code-block">
-                <code>{`const (
-	SpeculationAuto     = internalspec.ModeAuto
-	SpeculationDisabled = internalspec.ModeDisabled
-	SpeculationClassic  = internalspec.ModeClassic
-	SpeculationMTP      = internalspec.ModeMTP
-)`}</code>
-              </pre>
-            </div>
-
             <div className="doc-section" id="const-defaultprefillbatchsize">
               <h4>DefaultPrefillBatchSize</h4>
               <pre className="code-block">
@@ -2454,6 +3167,70 @@ export default function DocsSDKModel() {
               <pre className="code-block">
                 <code>{`var (`}</code>
               </pre>
+              <p className="doc-description">// IMCSessionStateActive means a request holds the entry's reservation. IMCSessionStateActive = newIMCSessionState("active") // IMCSessionStateIdle means the entry contains a reusable snapshot. IMCSessionStateIdle = newIMCSessionState("idle") // IMCSessionStateEmpty means the entry has no snapshot. IMCSessionStateEmpty = newIMCSessionState("empty")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// GGMLTypeAuto uses the native default. GGMLTypeAuto = newGGMLType("auto") // GGMLTypeF32 uses 32-bit floating point. GGMLTypeF32 = newGGMLType("f32") // GGMLTypeF16 uses 16-bit floating point. GGMLTypeF16 = newGGMLType("f16") // GGMLTypeQ4_0 uses 4-bit quantization (type 0). GGMLTypeQ4_0 = newGGMLType("q4_0") // GGMLTypeQ4_1 uses 4-bit quantization (type 1). GGMLTypeQ4_1 = newGGMLType("q4_1") // GGMLTypeQ5_0 uses 5-bit quantization (type 0). GGMLTypeQ5_0 = newGGMLType("q5_0") // GGMLTypeQ5_1 uses 5-bit quantization (type 1). GGMLTypeQ5_1 = newGGMLType("q5_1") // GGMLTypeQ8_0 uses 8-bit quantization. GGMLTypeQ8_0 = newGGMLType("q8_0") // GGMLTypeBF16 uses brain floating point 16-bit. GGMLTypeBF16 = newGGMLType("bf16")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// FlashAttentionEnabled forces Flash Attention on. FlashAttentionEnabled = newFlashAttentionType("enabled") // FlashAttentionDisabled forces Flash Attention off. FlashAttentionDisabled = newFlashAttentionType("disabled") // FlashAttentionAuto lets llama.cpp decide. FlashAttentionAuto = newFlashAttentionType("auto")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// LazyModeAuto enables lazy reading for eligible tensors larger than 4 GiB // when all selected devices support mmap. LazyModeAuto = newLazyMode("auto") // LazyModeOff reads eligible tensors up front like ordinary weights. LazyModeOff = newLazyMode("off") // LazyModeOn requests lazy reading regardless of eligible tensor size. LazyModeOn = newLazyMode("on")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// KVCachePartitioned reserves a context-window-sized partition per slot. KVCachePartitioned = newKVCacheMode("partitioned") // KVCacheShared shares aggregate capacity while Kronk limits each request. KVCacheShared = newKVCacheMode("shared")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// LoadModeAuto uses mmap when every selected device supports it. LoadModeAuto = newLoadMode("auto") // LoadModeMMap forces memory mapped weights. LoadModeMMap = newLoadMode("mmap") // LoadModeNone loads without mmap, mlock, or direct I/O. LoadModeNone = newLoadMode("none") // LoadModeMLock requests resident pages without forcing mmap. LoadModeMLock = newLoadMode("mlock") // LoadModeDirectIO bypasses the page cache where supported. LoadModeDirectIO = newLoadMode("direct-io") // LoadModeMMapMLock combines mmap and resident pages. LoadModeMMapMLock = newLoadMode("mmap+mlock")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// SplitModeNone uses a single GPU. SplitModeNone = newSplitMode("none") // SplitModeLayer splits layers and KV across GPUs. SplitModeLayer = newSplitMode("layer") // SplitModeRow uses legacy row-split parallelism. SplitModeRow = newSplitMode("row") // SplitModeTensor uses tensor parallelism. SplitModeTensor = newSplitMode("tensor")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// RopeScalingNone leaves native scaling defaults unchanged. RopeScalingNone = newRopeScalingType("none") // RopeScalingLinear uses linear interpolation scaling. RopeScalingLinear = newRopeScalingType("linear") // RopeScalingYaRN uses YaRN scaling. RopeScalingYaRN = newRopeScalingType("yarn")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
               <p className="doc-description">// DecisionProtocolOpenJEV identifies the OpenJEV letter-readout protocol. DecisionProtocolOpenJEV = newDecisionProtocol("openjev")</p>
               <p className="doc-description">// DecisionProtocolJevStyle identifies the macjev-render-v1 protocol. DecisionProtocolJevStyle = newDecisionProtocol("jev-style")</p>
               <p className="doc-description">// DecisionProtocolLaya identifies the Laya and Julia marker-embedding protocol. DecisionProtocolLaya = newDecisionProtocol("laya")</p>
@@ -2477,6 +3254,54 @@ export default function DocsSDKModel() {
               <p className="doc-description">// MoEModeExpertsGPU keeps all expert tensors on GPU. // Requires sufficient VRAM for the full model. MoEModeExpertsGPU = newMoEMode("experts_gpu")</p>
               <p className="doc-description">// MoEModeKeepTopN keeps routed experts on GPU for the top N layers. // All other expert layers go to CPU. MoEModeKeepTopN = newMoEMode("keep_top_n")</p>
               <p className="doc-description">// MoEModeCustom defers to TensorBuftOverrides for expert placement. MoEModeCustom = newMoEMode("custom")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// SpeculationAuto selects a configured classic drafter or available MTP. SpeculationAuto = internalspec.ModeAuto // SpeculationDisabled runs target-only generation. SpeculationDisabled = internalspec.ModeDisabled // SpeculationClassic requires a separate draft model. SpeculationClassic = internalspec.ModeClassic // SpeculationMTP requires a companion or embedded MTP implementation. SpeculationMTP = internalspec.ModeMTP</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// DecisionQuestionTypeChoice selects one named option. DecisionQuestionTypeChoice = newDecisionQuestionType("choice") // DecisionQuestionTypeScore rates state against ordered levels. DecisionQuestionTypeScore = newDecisionQuestionType("score") // DecisionQuestionTypeNoul returns a calibrated yes probability. DecisionQuestionTypeNoul = newDecisionQuestionType("noul")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// MediaTypeNone identifies text-only input. MediaTypeNone = newMediaType("none", 0) // MediaTypeVision identifies visual input. MediaTypeVision = newMediaType("vision", 1) // MediaTypeAudio identifies audio input. MediaTypeAudio = newMediaType("audio", 2)</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// ModelTypeDense uses partial-range state cleanup. ModelTypeDense = newModelType("dense", 0) // ModelTypeMoE uses expert routing and partial-range state cleanup. ModelTypeMoE = newModelType("moe", 1) // ModelTypeHybrid requires snapshot/restore for recurrent state. ModelTypeHybrid = newModelType("hybrid", 2)</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// NUMADisabled disables NUMA placement. NUMADisabled = newNUMAStrategy("") // NUMADistribute distributes work across nodes. NUMADistribute = newNUMAStrategy("distribute") // NUMAIsolate restricts work to one node. NUMAIsolate = newNUMAStrategy("isolate") // NUMANumactl uses the numactl configuration. NUMANumactl = newNUMAStrategy("numactl") // NUMAMirror mirrors work across nodes. NUMAMirror = newNUMAStrategy("mirror")</p>
+            </div>
+
+            <div className="doc-section" id="var-variable">
+              <h4>Variable</h4>
+              <pre className="code-block">
+                <code>{`var (`}</code>
+              </pre>
+              <p className="doc-description">// ChannelNone identifies a structural marker, counted but not surfaced. ChannelNone = newChannel("none", 0) // ChannelReasoning identifies reasoning_content deltas. ChannelReasoning = newChannel("reasoning", 1) // ChannelAnswer identifies content deltas. ChannelAnswer = newChannel("answer", 2) // ChannelTool identifies content accumulated for ToolCall parsing. ChannelTool = newChannel("tool", 3)</p>
             </div>
 
             <div className="doc-section" id="var-errdecisionbudget">
@@ -2544,14 +3369,23 @@ export default function DocsSDKModel() {
                 <li><a href="#func-validatemessages">ValidateMessages</a></li>
                 <li><a href="#func-newgrammarsampler">NewGrammarSampler</a></li>
                 <li><a href="#func-verifyartifact">VerifyArtifact</a></li>
+                <li><a href="#func-parsechannel">ParseChannel</a></li>
                 <li><a href="#func-parsedecisionprotocol">ParseDecisionProtocol</a></li>
+                <li><a href="#func-parsedecisionquestiontype">ParseDecisionQuestionType</a></li>
+                <li><a href="#func-parseflashattentiontype">ParseFlashAttentionType</a></li>
                 <li><a href="#func-parseggmltype">ParseGGMLType</a></li>
+                <li><a href="#func-parseimcsessionstate">ParseIMCSessionState</a></li>
+                <li><a href="#func-parsekvcachemode">ParseKVCacheMode</a></li>
                 <li><a href="#func-parselazymode">ParseLazyMode</a></li>
                 <li><a href="#func-parseloadmode">ParseLoadMode</a></li>
+                <li><a href="#func-parsemediatype">ParseMediaType</a></li>
                 <li><a href="#func-parsemoemode">ParseMoEMode</a></li>
                 <li><a href="#func-newmodel">NewModel</a></li>
                 <li><a href="#func-detectmodeltypefromfiles">DetectModelTypeFromFiles</a></li>
+                <li><a href="#func-parsemodeltype">ParseModelType</a></li>
+                <li><a href="#func-parsenumastrategy">ParseNUMAStrategy</a></li>
                 <li><a href="#func-parseropescalingtype">ParseRopeScalingType</a></li>
+                <li><a href="#func-parsespeculationmode">ParseSpeculationMode</a></li>
                 <li><a href="#func-parsesplitmode">ParseSplitMode</a></li>
               </ul>
             </div>
@@ -2594,6 +3428,7 @@ export default function DocsSDKModel() {
                 <li><a href="#type-imcsessiondetail">IMCSessionDetail</a></li>
                 <li><a href="#type-imcsessionstate">IMCSessionState</a></li>
                 <li><a href="#type-imcsystemcachedetail">IMCSystemCacheDetail</a></li>
+                <li><a href="#type-kvcachemode">KVCacheMode</a></li>
                 <li><a href="#type-lazymode">LazyMode</a></li>
                 <li><a href="#type-loadmode">LoadMode</a></li>
                 <li><a href="#type-logger">Logger</a></li>
@@ -2604,6 +3439,7 @@ export default function DocsSDKModel() {
                 <li><a href="#type-model">Model</a></li>
                 <li><a href="#type-modelinfo">ModelInfo</a></li>
                 <li><a href="#type-modeltype">ModelType</a></li>
+                <li><a href="#type-numastrategy">NUMAStrategy</a></li>
                 <li><a href="#type-option">Option</a></li>
                 <li><a href="#type-params">Params</a></li>
                 <li><a href="#type-paramsadjuster">ParamsAdjuster</a></li>
@@ -2641,6 +3477,15 @@ export default function DocsSDKModel() {
             <div className="doc-index-section">
               <a href="#methods" className="doc-index-header">Methods</a>
               <ul>
+                <li><a href="#method-channel-equal">Channel.Equal</a></li>
+                <li><a href="#method-channel-iszero">Channel.IsZero</a></li>
+                <li><a href="#method-channel-marshaljson">Channel.MarshalJSON</a></li>
+                <li><a href="#method-channel-marshaltext">Channel.MarshalText</a></li>
+                <li><a href="#method-channel-marshalyaml">Channel.MarshalYAML</a></li>
+                <li><a href="#method-channel-string">Channel.String</a></li>
+                <li><a href="#method-channel-unmarshaljson">Channel.UnmarshalJSON</a></li>
+                <li><a href="#method-channel-unmarshaltext">Channel.UnmarshalText</a></li>
+                <li><a href="#method-channel-unmarshalyaml">Channel.UnmarshalYAML</a></li>
                 <li><a href="#method-choice-finishreason">Choice.FinishReason</a></li>
                 <li><a href="#method-config-admissiontimeout">Config.AdmissionTimeout</a></li>
                 <li><a href="#method-config-batchbasesize">Config.BatchBaseSize</a></li>
@@ -2655,6 +3500,7 @@ export default function DocsSDKModel() {
                 <li><a href="#method-config-imagetokenbudget">Config.ImageTokenBudget</a></li>
                 <li><a href="#method-config-incrementalcache">Config.IncrementalCache</a></li>
                 <li><a href="#method-config-insecurelogging">Config.InsecureLogging</a></li>
+                <li><a href="#method-config-kvcachemode">Config.KVCacheMode</a></li>
                 <li><a href="#method-config-maingpu">Config.MainGPU</a></li>
                 <li><a href="#method-config-moecachesize">Config.MoECacheSize</a></li>
                 <li><a href="#method-config-ngpulayers">Config.NGpuLayers</a></li>
@@ -2684,33 +3530,78 @@ export default function DocsSDKModel() {
                 <li><a href="#method-decisionprotocol-marshaltext">DecisionProtocol.MarshalText</a></li>
                 <li><a href="#method-decisionprotocol-string">DecisionProtocol.String</a></li>
                 <li><a href="#method-decisionprotocol-unmarshaltext">DecisionProtocol.UnmarshalText</a></li>
+                <li><a href="#method-decisionquestiontype-equal">DecisionQuestionType.Equal</a></li>
+                <li><a href="#method-decisionquestiontype-iszero">DecisionQuestionType.IsZero</a></li>
+                <li><a href="#method-decisionquestiontype-marshaltext">DecisionQuestionType.MarshalText</a></li>
+                <li><a href="#method-decisionquestiontype-string">DecisionQuestionType.String</a></li>
+                <li><a href="#method-decisionquestiontype-unmarshaltext">DecisionQuestionType.UnmarshalText</a></li>
                 <li><a href="#method-decisionstatevalue-marshaljson">DecisionStateValue.MarshalJSON</a></li>
                 <li><a href="#method-draftmodelconfig-isseparate">DraftModelConfig.IsSeparate</a></li>
                 <li><a href="#method-draftmodelconfig-maingpu">DraftModelConfig.MainGPU</a></li>
                 <li><a href="#method-draftmodelconfig-ngpulayers">DraftModelConfig.NGpuLayers</a></li>
+                <li><a href="#method-flashattentiontype-equal">FlashAttentionType.Equal</a></li>
+                <li><a href="#method-flashattentiontype-iszero">FlashAttentionType.IsZero</a></li>
                 <li><a href="#method-flashattentiontype-marshaljson">FlashAttentionType.MarshalJSON</a></li>
+                <li><a href="#method-flashattentiontype-marshaltext">FlashAttentionType.MarshalText</a></li>
                 <li><a href="#method-flashattentiontype-marshalyaml">FlashAttentionType.MarshalYAML</a></li>
                 <li><a href="#method-flashattentiontype-string">FlashAttentionType.String</a></li>
                 <li><a href="#method-flashattentiontype-unmarshaljson">FlashAttentionType.UnmarshalJSON</a></li>
+                <li><a href="#method-flashattentiontype-unmarshaltext">FlashAttentionType.UnmarshalText</a></li>
                 <li><a href="#method-flashattentiontype-unmarshalyaml">FlashAttentionType.UnmarshalYAML</a></li>
+                <li><a href="#method-ggmltype-equal">GGMLType.Equal</a></li>
+                <li><a href="#method-ggmltype-iszero">GGMLType.IsZero</a></li>
                 <li><a href="#method-ggmltype-marshaljson">GGMLType.MarshalJSON</a></li>
+                <li><a href="#method-ggmltype-marshaltext">GGMLType.MarshalText</a></li>
                 <li><a href="#method-ggmltype-marshalyaml">GGMLType.MarshalYAML</a></li>
                 <li><a href="#method-ggmltype-string">GGMLType.String</a></li>
+                <li><a href="#method-ggmltype-tovramtype">GGMLType.ToVRAMType</a></li>
                 <li><a href="#method-ggmltype-toyzmatype">GGMLType.ToYZMAType</a></li>
                 <li><a href="#method-ggmltype-unmarshaljson">GGMLType.UnmarshalJSON</a></li>
+                <li><a href="#method-ggmltype-unmarshaltext">GGMLType.UnmarshalText</a></li>
                 <li><a href="#method-ggmltype-unmarshalyaml">GGMLType.UnmarshalYAML</a></li>
+                <li><a href="#method-imcsessionstate-equal">IMCSessionState.Equal</a></li>
+                <li><a href="#method-imcsessionstate-iszero">IMCSessionState.IsZero</a></li>
+                <li><a href="#method-imcsessionstate-marshaltext">IMCSessionState.MarshalText</a></li>
+                <li><a href="#method-imcsessionstate-string">IMCSessionState.String</a></li>
+                <li><a href="#method-imcsessionstate-unmarshaltext">IMCSessionState.UnmarshalText</a></li>
+                <li><a href="#method-kvcachemode-equal">KVCacheMode.Equal</a></li>
+                <li><a href="#method-kvcachemode-iszero">KVCacheMode.IsZero</a></li>
+                <li><a href="#method-kvcachemode-marshaljson">KVCacheMode.MarshalJSON</a></li>
+                <li><a href="#method-kvcachemode-marshaltext">KVCacheMode.MarshalText</a></li>
+                <li><a href="#method-kvcachemode-marshalyaml">KVCacheMode.MarshalYAML</a></li>
+                <li><a href="#method-kvcachemode-string">KVCacheMode.String</a></li>
+                <li><a href="#method-kvcachemode-unmarshaljson">KVCacheMode.UnmarshalJSON</a></li>
+                <li><a href="#method-kvcachemode-unmarshaltext">KVCacheMode.UnmarshalText</a></li>
+                <li><a href="#method-kvcachemode-unmarshalyaml">KVCacheMode.UnmarshalYAML</a></li>
+                <li><a href="#method-lazymode-equal">LazyMode.Equal</a></li>
+                <li><a href="#method-lazymode-iszero">LazyMode.IsZero</a></li>
                 <li><a href="#method-lazymode-marshaljson">LazyMode.MarshalJSON</a></li>
+                <li><a href="#method-lazymode-marshaltext">LazyMode.MarshalText</a></li>
                 <li><a href="#method-lazymode-marshalyaml">LazyMode.MarshalYAML</a></li>
                 <li><a href="#method-lazymode-string">LazyMode.String</a></li>
                 <li><a href="#method-lazymode-toyzmatype">LazyMode.ToYZMAType</a></li>
                 <li><a href="#method-lazymode-unmarshaljson">LazyMode.UnmarshalJSON</a></li>
+                <li><a href="#method-lazymode-unmarshaltext">LazyMode.UnmarshalText</a></li>
                 <li><a href="#method-lazymode-unmarshalyaml">LazyMode.UnmarshalYAML</a></li>
+                <li><a href="#method-loadmode-equal">LoadMode.Equal</a></li>
+                <li><a href="#method-loadmode-iszero">LoadMode.IsZero</a></li>
                 <li><a href="#method-loadmode-marshaljson">LoadMode.MarshalJSON</a></li>
+                <li><a href="#method-loadmode-marshaltext">LoadMode.MarshalText</a></li>
                 <li><a href="#method-loadmode-marshalyaml">LoadMode.MarshalYAML</a></li>
                 <li><a href="#method-loadmode-string">LoadMode.String</a></li>
                 <li><a href="#method-loadmode-toyzmatype">LoadMode.ToYZMAType</a></li>
                 <li><a href="#method-loadmode-unmarshaljson">LoadMode.UnmarshalJSON</a></li>
+                <li><a href="#method-loadmode-unmarshaltext">LoadMode.UnmarshalText</a></li>
                 <li><a href="#method-loadmode-unmarshalyaml">LoadMode.UnmarshalYAML</a></li>
+                <li><a href="#method-mediatype-equal">MediaType.Equal</a></li>
+                <li><a href="#method-mediatype-iszero">MediaType.IsZero</a></li>
+                <li><a href="#method-mediatype-marshaljson">MediaType.MarshalJSON</a></li>
+                <li><a href="#method-mediatype-marshaltext">MediaType.MarshalText</a></li>
+                <li><a href="#method-mediatype-marshalyaml">MediaType.MarshalYAML</a></li>
+                <li><a href="#method-mediatype-string">MediaType.String</a></li>
+                <li><a href="#method-mediatype-unmarshaljson">MediaType.UnmarshalJSON</a></li>
+                <li><a href="#method-mediatype-unmarshaltext">MediaType.UnmarshalText</a></li>
+                <li><a href="#method-mediatype-unmarshalyaml">MediaType.UnmarshalYAML</a></li>
                 <li><a href="#method-moeconfig-keepexpertsongpufortopnlayers">MoEConfig.KeepExpertsOnGPUForTopNLayers</a></li>
                 <li><a href="#method-moemode-equal">MoEMode.Equal</a></li>
                 <li><a href="#method-moemode-iszero">MoEMode.IsZero</a></li>
@@ -2730,20 +3621,41 @@ export default function DocsSDKModel() {
                 <li><a href="#method-model-tokenize">Model.Tokenize</a></li>
                 <li><a href="#method-model-unload">Model.Unload</a></li>
                 <li><a href="#method-modelinfo-string">ModelInfo.String</a></li>
+                <li><a href="#method-modeltype-equal">ModelType.Equal</a></li>
+                <li><a href="#method-modeltype-iszero">ModelType.IsZero</a></li>
+                <li><a href="#method-modeltype-marshaljson">ModelType.MarshalJSON</a></li>
+                <li><a href="#method-modeltype-marshaltext">ModelType.MarshalText</a></li>
+                <li><a href="#method-modeltype-marshalyaml">ModelType.MarshalYAML</a></li>
                 <li><a href="#method-modeltype-string">ModelType.String</a></li>
+                <li><a href="#method-modeltype-unmarshaljson">ModelType.UnmarshalJSON</a></li>
+                <li><a href="#method-modeltype-unmarshaltext">ModelType.UnmarshalText</a></li>
+                <li><a href="#method-modeltype-unmarshalyaml">ModelType.UnmarshalYAML</a></li>
+                <li><a href="#method-numastrategy-equal">NUMAStrategy.Equal</a></li>
+                <li><a href="#method-numastrategy-iszero">NUMAStrategy.IsZero</a></li>
+                <li><a href="#method-numastrategy-marshaltext">NUMAStrategy.MarshalText</a></li>
+                <li><a href="#method-numastrategy-string">NUMAStrategy.String</a></li>
+                <li><a href="#method-numastrategy-unmarshaltext">NUMAStrategy.UnmarshalText</a></li>
                 <li><a href="#method-params-string">Params.String</a></li>
                 <li><a href="#method-responsemessage-marshaljson">ResponseMessage.MarshalJSON</a></li>
+                <li><a href="#method-ropescalingtype-equal">RopeScalingType.Equal</a></li>
+                <li><a href="#method-ropescalingtype-iszero">RopeScalingType.IsZero</a></li>
                 <li><a href="#method-ropescalingtype-marshaljson">RopeScalingType.MarshalJSON</a></li>
+                <li><a href="#method-ropescalingtype-marshaltext">RopeScalingType.MarshalText</a></li>
                 <li><a href="#method-ropescalingtype-marshalyaml">RopeScalingType.MarshalYAML</a></li>
                 <li><a href="#method-ropescalingtype-string">RopeScalingType.String</a></li>
                 <li><a href="#method-ropescalingtype-toyzmatype">RopeScalingType.ToYZMAType</a></li>
                 <li><a href="#method-ropescalingtype-unmarshaljson">RopeScalingType.UnmarshalJSON</a></li>
+                <li><a href="#method-ropescalingtype-unmarshaltext">RopeScalingType.UnmarshalText</a></li>
                 <li><a href="#method-ropescalingtype-unmarshalyaml">RopeScalingType.UnmarshalYAML</a></li>
+                <li><a href="#method-splitmode-equal">SplitMode.Equal</a></li>
+                <li><a href="#method-splitmode-iszero">SplitMode.IsZero</a></li>
                 <li><a href="#method-splitmode-marshaljson">SplitMode.MarshalJSON</a></li>
+                <li><a href="#method-splitmode-marshaltext">SplitMode.MarshalText</a></li>
                 <li><a href="#method-splitmode-marshalyaml">SplitMode.MarshalYAML</a></li>
                 <li><a href="#method-splitmode-string">SplitMode.String</a></li>
                 <li><a href="#method-splitmode-toyzmatype">SplitMode.ToYZMAType</a></li>
                 <li><a href="#method-splitmode-unmarshaljson">SplitMode.UnmarshalJSON</a></li>
+                <li><a href="#method-splitmode-unmarshaltext">SplitMode.UnmarshalText</a></li>
                 <li><a href="#method-splitmode-unmarshalyaml">SplitMode.UnmarshalYAML</a></li>
                 <li><a href="#method-streamingresponselogger-capture">StreamingResponseLogger.Capture</a></li>
                 <li><a href="#method-streamingresponselogger-string">StreamingResponseLogger.String</a></li>
@@ -2754,14 +3666,12 @@ export default function DocsSDKModel() {
             <div className="doc-index-section">
               <a href="#constants" className="doc-index-header">Constants</a>
               <ul>
-                <li><a href="#const-numadisabled">NUMADisabled</a></li>
                 <li><a href="#const-objectchatunknown">ObjectChatUnknown</a></li>
                 <li><a href="#const-roleuser">RoleUser</a></li>
                 <li><a href="#const-finishreasonstop">FinishReasonStop</a></li>
                 <li><a href="#const-defadaptivepdecay">DefAdaptivePDecay</a></li>
                 <li><a href="#const-thinkingenabled">ThinkingEnabled</a></li>
                 <li><a href="#const-reasoningeffortnone">ReasoningEffortNone</a></li>
-                <li><a href="#const-speculationauto">SpeculationAuto</a></li>
                 <li><a href="#const-defaultprefillbatchsize">DefaultPrefillBatchSize</a></li>
                 <li><a href="#const-defaultqueuedepth">DefaultQueueDepth</a></li>
                 <li><a href="#const-expertsallongpu">ExpertsAllOnGPU</a></li>
@@ -2770,6 +3680,20 @@ export default function DocsSDKModel() {
             <div className="doc-index-section">
               <a href="#variables" className="doc-index-header">Variables</a>
               <ul>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
+                <li><a href="#var-variable">Variable</a></li>
                 <li><a href="#var-variable">Variable</a></li>
                 <li><a href="#var-variable">Variable</a></li>
                 <li><a href="#var-errdecisionbudget">ErrDecisionBudget</a></li>

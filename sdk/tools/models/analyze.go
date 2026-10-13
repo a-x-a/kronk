@@ -316,6 +316,7 @@ func analyzeModelWithConfigAndBudget(info ModelInfo, devs devices.Devices, cfg M
 		nGpuLayers:     cfg.PtrNGpuLayers,
 		nUBatch:        effectivePrefillBatchSize(cfg),
 		kvCacheOnCPU:   cfg.PtrOffloadKQV != nil && !*cfg.PtrOffloadKQV,
+		kvUnified:      runtimeCfg.KVCacheMode() == model.KVCacheShared,
 		swaFull:        cfg.PtrSWAFull == nil || *cfg.PtrSWAFull,
 	}
 	for _, device := range devs.Devices {
@@ -417,6 +418,7 @@ type profileInput struct {
 	nGpuLayers     *int
 	nUBatch        int64
 	kvCacheOnCPU   bool
+	kvUnified      bool
 	swaFull        bool
 }
 
@@ -698,7 +700,7 @@ func calculateProfile(p profileInput, contextWindow, slots int64, cache cacheRec
 		RecurrentStateBytes:   p.attn.RecurrentStateBytes,
 		RecurrentStateCopies:  1,
 		NUBatch:               p.nUBatch,
-		KVUnified:             false,
+		KVUnified:             p.kvUnified,
 		EmbeddingLength:       p.embLen,
 		GPULayers:             gpuLayers,
 		KVCacheOnCPU:          p.kvCacheOnCPU,
@@ -735,9 +737,9 @@ func cacheRecommendations(typeK, typeV model.GGMLType) []cacheRecommendation {
 		return cacheRecommendation{
 			typeK:           k.String(),
 			typeV:           v.String(),
-			ggmlTypeK:       int32(k),
-			ggmlTypeV:       int32(v),
-			bytesPerElement: gguf.MaxBytesPerElement(int32(k), int32(v)),
+			ggmlTypeK:       k.ToVRAMType(),
+			ggmlTypeV:       v.ToVRAMType(),
+			bytesPerElement: gguf.MaxBytesPerElement(k.ToVRAMType(), v.ToVRAMType()),
 		}
 	}
 
