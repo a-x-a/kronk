@@ -112,7 +112,7 @@ Here are some of the known compatible versions:
 
 | kronk  | yzma    | llama.cpp | bucky  | whisper.cpp | malina | stable-diffusion.cpp |
 | ------ | ------- | --------- | ------ | ----------- | ------ | -------------------- |
-| dev    | 716ea9b | b11588    | v1.1.4 | v1.9.5      | v1.1.5 | master-929-3f8527a   |
+| dev    | v1.30.0 | b11696    | v1.1.4 | v1.9.5      | v1.1.5 | master-929-3f8527a   |
 | 1.32.9 | 1a800a2 | b11513    | v1.1.4 | v1.9.5      | v1.1.5 | master-929-3f8527a   |
 | 1.32.8 | c25d400 | b11331    | v1.1.3 | v1.9.4      | v1.1.5 | master-929-3f8527a   |
 | 1.32.6 | ece4890 | b10896    | v1.1.2 | v1.9.3      | v1.1.0 | master-849-d04e895   |
@@ -199,6 +199,7 @@ and talks about Kronk.
 | Oct 22nd - 23rd | Meetup Austin              | Austin, TX            | Talk           |
 | Oct 31th - 4th  | GoLab (GopherCon Italy)    | Bologna, Italy        | Training, Talk |
 | Nov 6th - 8th   | UM v ND                    | Southbend, IN         | Game Day       |
+| Dec 1st - 2nd   | Meetup Boston              | Boston, MA            | Talk           |
 | DECEMBER        | Winter Vacation            | Miami, FL             | Rest           |
 
 Copyright 2025-2026 Ardan Labs

@@ -344,7 +344,7 @@ kronk libs --list-installs
 
 # Install the supported version using its exact release manifest pin.
 kronk libs --local \
-  --version=b11588@sha256:bea822972cea8f5d9059e66361302d8c8a033557cb65cf062a5a2e555ff8acee
+  --version=b11696@sha256:95611b3707421f8cad9dcd04a9c4ea8e28a5dd2fd38d7bd088a0bbc6c89a9908
 
 # Explicitly select CPU instead of an available GPU.
 KRONK_PROCESSOR=cpu kronk libs --local
@@ -369,6 +369,15 @@ Do not infer compatibility from version ordering or upgrade only one member of
 the set. The current and historical matrix is kept in the repository
 [README](../README.md#project-status), while the normal non-`--upgrade` command
 installs the build pinned for the Kronk release.
+
+When upgrading to llama.cpp b11696, check any deployment settings for
+`GGML_CUDA_ENABLE_UNIFIED_MEMORY`, `GGML_CUDA_NO_PINNED`, and
+`GGML_CUDA_REGISTER_HOST`. These native CUDA-family environment variables
+now require numeric nonzero values instead of merely being present. Use `1`
+to activate them, not `true`, `yes`, or an empty value. See
+[Native backend environment settings](https://www.kronkai.com/manual#native-backend-environment-settings)
+for their meanings and restart requirements. No change is needed if they
+are unset.
 
 Use `kronk libs --help` for cross-platform bundle installation and removal.
 Changing the active library path requires a server restart; libraries are not

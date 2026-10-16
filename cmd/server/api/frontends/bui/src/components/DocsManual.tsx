@@ -336,13 +336,14 @@ kronk libs --list-installs
 
 # Install the supported version using its exact release manifest pin.
 kronk libs --local \\
-  --version=b11588@sha256:bea822972cea8f5d9059e66361302d8c8a033557cb65cf062a5a2e555ff8acee
+  --version=b11696@sha256:95611b3707421f8cad9dcd04a9c4ea8e28a5dd2fd38d7bd088a0bbc6c89a9908
 
 # Explicitly select CPU instead of an available GPU.
 KRONK_PROCESSOR=cpu kronk libs --local`}</code></pre>
           <p>The normal command installs the llama.cpp version selected for the installed Kronk release. That default includes the SHA-256 of the release manifest. The manifest contains the digests of every platform archive, allowing Kronk to authenticate the manifest before verifying the selected download. Yzma caches the authenticated manifest and its digest beside the installed libraries so subsequent verification can run without network access. An installation made before Yzma 1.26.1 needs one online verification to populate that cache. <code>--upgrade</code> opts into the latest published llama.cpp build, which may introduce upstream compatibility changes:</p>
           <pre className="code-block"><code className="language-shell">{`kronk libs --local --upgrade`}</code></pre>
           <p>Kronk, its Yzma Go binding, and llama.cpp form a tested compatibility set. Do not infer compatibility from version ordering or upgrade only one member of the set. The current and historical matrix is kept in the repository <a href="../README.md#project-status">README</a>, while the normal non-<code>--upgrade</code> command installs the build pinned for the Kronk release.</p>
+          <p>When upgrading to llama.cpp b11696, check any deployment settings for <code>GGML_CUDA_ENABLE_UNIFIED_MEMORY</code>, <code>GGML_CUDA_NO_PINNED</code>, and <code>GGML_CUDA_REGISTER_HOST</code>. These native CUDA-family environment variables now require numeric nonzero values instead of merely being present. Use <code>1</code> to activate them, not <code>true</code>, <code>yes</code>, or an empty value. See <a href="https://www.kronkai.com/manual#native-backend-environment-settings">Native backend environment settings</a> for their meanings and restart requirements. No change is needed if they are unset.</p>
           <p>Use <code>kronk libs --help</code> for cross-platform bundle installation and removal. Changing the active library path requires a server restart; libraries are not hot-reloaded.</p>
           <p><code>KRONK_LIB_PATH</code> can name an existing versioned Kronk bundle or a user-managed library directory. A non-empty user-managed directory without <code>version.json</code> is treated as read-only: Kronk loads from it but does not install, upgrade, or replace its contents. Changing the selected processor or library path requires a process restart; native libraries are not hot-reloaded.</p>
           <p>Linux CUDA bundles depend on CUDA runtime libraries supplied by the host. A working <code>nvidia-smi</code> confirms the driver but not necessarily the CUDA runtime. If the CUDA backend does not load, inspect <code>libggml-cuda.so</code> with <code>ldd</code> and install the runtime packages appropriate for the CUDA version used by the current bundle. The CUDA container image already includes its matching runtime.</p>
@@ -679,6 +680,33 @@ malina-models:
           <p><code>offload-kqv: false</code> keeps the KV cache on the CPU. <code>op-offload: false</code> keeps host tensor operations on the CPU. These options can reduce discrete-GPU VRAM pressure at a performance cost. They do not reduce total memory requirements.</p>
           <p>llama.cpp also supports the process-wide <code>GGML_OP_OFFLOAD_MIN_BATCH</code> environment variable. Set it before Kronk starts; GPU backends read it once during <code>kronk.Init</code>, so it cannot be configured independently per model.</p>
           <p>For multimodal models, <code>proj-on-cpu: true</code> keeps the media projector on the CPU without changing placement of the language model itself. To place the projector on a specific accelerator, set <code>proj-device</code> to a name reported by <code>kronk devices</code> (for example, <code>CUDA1</code> or <code>MTL0</code>). Omit both settings for automatic placement. <code>proj-device</code> cannot be combined with <code>proj-on-cpu: true</code>.</p>
+          <h4 id="native-backend-environment-settings">Native backend environment settings</h4>
+          <p>These optional llama.cpp settings are process-wide environment variables, not per-model YAML fields. They affect the CUDA backend and applicable ROCm/HIP paths. Leave them unset unless you need to override backend memory behavior.</p>
+          <table className="flags-table">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Effect when set to <code>1</code></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>GGML_CUDA_ENABLE_UNIFIED_MEMORY</code></td>
+                <td>Enable managed/unified memory allocation</td>
+              </tr>
+              <tr>
+                <td><code>GGML_CUDA_NO_PINNED</code></td>
+                <td>Disable pinned host-memory allocation</td>
+              </tr>
+              <tr>
+                <td><code>GGML_CUDA_REGISTER_HOST</code></td>
+                <td>Enable host-memory registration</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Starting with llama.cpp b11696, these three settings require a value that parses as a nonzero integer. Previously, their presence alone activated them, even with an empty value or <code>0</code>. Use <code>1</code> to activate a setting; <code>true</code>, <code>yes</code>, an empty value, and <code>0</code> no longer activate it. For example:</p>
+          <pre className="code-block"><code className="language-shell">{`GGML_CUDA_ENABLE_UNIFIED_MEMORY=1 kronk server start`}</code></pre>
+          <p>Set these variables before backend initialization. Their values are cached on first use, so restart the server after changing them. Do not apply this numeric rule to every native setting: <code>GGML_CUDA_P2P</code> remains presence-based, so even <code>GGML_CUDA_P2P=0</code> enables it; unset it to disable it.</p>
           <h4 id="multiple-gpus">Multiple GPUs</h4>
           <p><code>split-mode</code> accepts:</p>
           <table className="flags-table">
@@ -1590,7 +1618,7 @@ krn, err := kronk.New(
           <p>MTP is normally the simpler choice when the downloaded model provides a supported embedded or companion head. It is architecture-matched to its target, supports multiple execution slots, and does not require a <code>model-id</code> in the <code>draft-model</code> configuration.</p>
           <p>An embedded head requires no companion file. A companion MTP head is an additional model-specific file, but Kronk's catalog and download flow can discover and associate files at the repository root or under <code>MTP/</code> with the target automatically. A version 2 catalog entry can instead provide <code>mtp_url</code> when a compatible companion is hosted in another repository. It is not configured as a classic <code>draft-model</code>.</p>
           <p>Qwen3.8 Flash Next's <code>qwen4exp</code> MTP runtime supports embedded heads and self-contained companion GGUFs through the own-KV runtime. Existing shared-tensor sidecars are not compatible; the companion must contain its own token embeddings and output tensors.</p>
-          <p>The pinned b11588 bundle contains the recurrent-memory assertion fix from upstream PR #29799 and the Qwen4Exp QSA/indexer correctness fixes from PR #29819. MTP hidden rows use the separate state-embedding input introduced in PR #30257; token and media embeddings remain separate. In <code>auto</code> mode Kronk loads a compatible Qwen4Exp companion when one is available, otherwise it uses a compatible embedded head. The <code>disabled</code> speculation mode continues to run the target without MTP.</p>
+          <p>The pinned b11696 bundle contains the recurrent-memory assertion fix from upstream PR #29799 and the Qwen4Exp QSA/indexer correctness fixes from PR #29819. MTP hidden rows use the separate state-embedding input introduced in PR #30257; token and media embeddings remain separate. In <code>auto</code> mode Kronk loads a compatible Qwen4Exp companion when one is available, otherwise it uses a compatible embedded head. The <code>disabled</code> speculation mode continues to run the target without MTP.</p>
           <p>NVIDIA Nemotron 3 Super uses the embedded own-KV MTP runtime. Kronk recognizes the <code>nemotron_h_moe</code> architecture, preserves recurrent-state rollback for its hybrid Mamba-attention target, and uses the model's Qwen3-Coder-compatible tool protocol. Separate Nemotron MTPv2 companion files and Nemotron Puzzle MTP are not supported; configure <code>speculation: disabled</code> to benchmark target-only generation with the same embedded model.</p>
           <p>MTP availability is a property of the downloaded files and the loaded llama.cpp library. Naming a model “MTP” or adding an <code>ndraft</code> override cannot create an MTP head that is not present.</p>
           <h3 id="64-draft-size-and-classic-adaptive-throttling">6.4 Draft Size and Classic Adaptive Throttling</h3>
@@ -4450,6 +4478,8 @@ KRONK_RENDER_GID=<render GID> KRONK_VIDEO_GID=<video GID> docker compose -f comp
 kronk libs --local --version=b5490
 kronk server start --lib-version=b5490`}</code></pre>
           <p>Unset <code>KRONK_LIB_VERSION</code> after the pinned default contains the required fix. Libraries are not hot-reloaded; restart the server after switching <code>KRONK_LIB_PATH</code>.</p>
+          <p>Also check native backend environment values. Starting with b11696, <code>GGML_CUDA_ENABLE_UNIFIED_MEMORY</code>, <code>GGML_CUDA_NO_PINNED</code>, and <code>GGML_CUDA_REGISTER_HOST</code> require numeric nonzero values such as <code>1</code>; <code>true</code>, <code>yes</code>, empty values, and <code>0</code> no longer activate them. Restart after changing these settings. See <a href="https://www.kronkai.com/manual#native-backend-environment-settings">Native backend environment settings</a> for details.</p>
+          <p>Native kernel changes can alter floating-point rounding without changing Kronk's embedding or sampling algorithms. For example, b11696 changes CUDA/HIP RMSNorm reductions and adds an eligible Metal BF16 Flash Attention path. Exact embeddings, logits, and generated text can differ across native versions, even with a fixed seed. Compare representative output quality and numerical tolerances rather than requiring byte-for-byte equality. Crashes, NaNs, or materially degraded results are not ordinary rounding differences; investigate and report them with the model, backend, library versions, and reproduction steps.</p>
           <h3 id="173-models-catalog-and-storage">17.3 Models, Catalog, and Storage</h3>
           <h4 id="a-downloaded-model-is-not-listed">A downloaded model is not listed</h4>
           <p>Kronk stores data beneath <code>KRONK_BASE_PATH</code>, which defaults to <code>~/.kronk</code>. Inspect the model index rather than relying on a hard-coded directory:</p>
